@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DOKUSHO-ZUKI</title>
+  <title>Manga Library | Dokusho-Zuki</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -14,242 +14,42 @@
       --cream2: #ccccff;
       --cream3: #cec8ef;
       --cream4: #e6e6fa;
-      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+      --shadow: 0 26px 60px rgba(96, 74, 186, 0.12);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 32px 24px 64px;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 18px 0;
-    }
-
-    .brand {
-      display: inline-block;
-      position: relative;
-      font-size: 1.8rem;
-      letter-spacing: 0.18em;
-      font-weight: 700;
-      color: #2b2b3d;
-      background: #bea0ca;
-      padding: 0.16em 0.28em;
-      border-radius: 0em;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
-      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
-    }
-
-    .brand::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: #bea0ca;
-      border-radius: 0.1em;
-      z-index: -1;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .nav a {
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 600;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .nav a:hover {
-      transform: translateY(-1px);
-      background: rgba(220, 208, 255, 0.35);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-      margin-top: 45px;
-    }
-
-    .hero-copy {
-      max-width: 560px;
-    }
-
-    .hero-copy h1 {
-      font-size: clamp(3rem, 5vw, 4.2rem);
-      line-height: 0.96;
-      margin: 0;
-    }
-
-    .hero-copy p {
-      color: var(--muted);
-      line-height: 1.8;
-      margin: 24px 0 0;
-      font-size: 1.05rem;
-    }
-
-    .button-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 32px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 170px;
-      padding: 14px 22px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, var(--cream1), var(--cream4));
-      color: var(--accent);
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 16px 28px rgba(130, 102, 210, 0.14);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 24px 40px rgba(130, 102, 210, 0.18);
-    }
-
-    .hero-visual {
-      position: relative;
-      border-radius: 40px;
-      overflow: hidden;
-      min-height: 50px;
-      box-shadow: var(--shadow);
-    }
-
-    .carousel {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-height: 200px;
-      display: flex;
-      transition: transform 0.8s ease-in-out;
-    }
-
-    .carousel img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    .info-grid {
-      display: grid;
-      gap: 24px;
-      margin-top: 48px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-
-    .info-card {
-      background: rgba(255, 255, 255, 0.76);
-      border: 1px solid rgba(130, 102, 210, 0.12);
-      border-radius: 30px;
-      padding: 26px;
-      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
-      transition: transform 0.2s ease;
-    }
-
-    .info-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .info-card h3 {
-      margin: 0 0 14px;
-      font-size: 1.2rem;
-    }
-
-    .info-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .gallery {
-      margin-top: 46px;
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-
-    .gallery-item {
-      border-radius: 28px;
-      overflow: hidden;
-      background: #fff;
-      border: 1px solid rgba(85, 63, 138, 0.1);
-      box-shadow: 0 20px 50px rgba(79, 53, 139, 0.08);
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .gallery-item .item-copy {
-      padding: 22px;
-    }
-
-    .gallery-item h4 {
-      margin: 0 0 10px;
-      font-size: 1.12rem;
-    }
-
-    .gallery-item p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1120px; margin: 0 auto; padding: 30px 24px 60px; }
+    .header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 16px 0; }
+    .brand { font-size: 1.7rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); }
+    .nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    .nav a { padding: 12px 16px; border-radius: 999px; font-weight: 600; transition: background 0.2s ease, transform 0.2s ease; }
+    .nav a:hover { background: rgba(220, 208, 255, 0.32); transform: translateY(-1px); }
+    .hero { display: grid; grid-template-columns: 1fr 0.95fr; gap: 32px; align-items: center; margin-top: 32px; }
+    .hero-intro { max-width: 560px; }
+    .hero-intro h1 { font-size: clamp(2.8rem, 4vw, 3.8rem); margin: 0; line-height: 1.02; }
+    .hero-intro p { color: var(--muted); line-height: 1.75; margin-top: 20px; }
+    .hero-image { border-radius: 32px; overflow: hidden; box-shadow: var(--shadow); }
+    .hero-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .cards { margin-top: 44px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+    .card { background: #fff; border-radius: 28px; border: 1px solid rgba(91, 70, 174, 0.1); box-shadow: 0 18px 42px rgba(89, 70, 156, 0.08); overflow: hidden; transition: transform 0.2s ease; }
+    .card:hover { transform: translateY(-5px); }
+    .card img { width: 100%; height: 210px; object-fit: cover; display: block; }
+    .card-body { padding: 22px; }
+    .card-body h2 { margin: 0 0 12px; font-size: 1.15rem; }
+    .card-body p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .tag { display: inline-flex; margin-top: 14px; padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; background: linear-gradient(135deg, var(--cream3), var(--cream4)); color: var(--accent); font-weight: 700; }
+    .button { margin-top: 30px; display: inline-flex; align-items: center; justify-content: center; min-width: 180px; padding: 14px 22px; border-radius: 999px; border: none; background: linear-gradient(135deg, var(--cream1), var(--cream4)); color: var(--accent); font-weight: 700; box-shadow: 0 16px 30px rgba(130, 102, 210, 0.14); transition: transform 0.2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .footer { margin-top: 52px; border-top: 1px solid #f0effa; padding-top: 22px; color: #7c7593; font-size: 0.95rem; }
+    @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <main class="page">
     <header class="header">
-      <div class="brand">DOKUSHO-ZUKI</div>
+      <div class="brand">Dokusho-Zuki</div>
       <nav class="nav">
         <a href="index.html">Home</a>
         <a href="manga-library.html">Manga Library</a>
@@ -258,82 +58,47 @@
     </header>
 
     <section class="hero">
-      <div class="hero-copy">
-        <p style="text-transform: uppercase; letter-spacing: 0.3em; color: #7f77a4; font-size: 0.84rem; margin-bottom: 18px;">Collect. Connect. Celebrate.</p>
-        <h1>A digital library for manga lovers alike.</h1>
-        <p>Discover gentle cakes, warm tea notes, and a creative Manga Library that turns every treat into a mood. Dokusho-Zuki blends craftsmanship with elegant design to make every moment memorable.</p>
-        <div class="button-group">
-          <a class="button" href="manga-library.html">Explore Library</a>
-          <a class="button" href="auth.html">Login / Register</a>
-        </div>
+      <div class="hero-intro">
+        <p style="text-transform: uppercase; letter-spacing: 0.28em; color: #7f77a4; font-size: 0.84rem; margin-bottom: 18px;">Manga Library</p>
+        <h1>Stories and sweets curated for the modern cake lover.</h1>
+        <p>Our Manga Library page is a quiet corner of inspiration where dessert themes and illustrated storytelling meet. Browse through luminous sections, discover character-inspired pastries, and imagine the next cozy reading moment with tea and cake.</p>
+        <a class="button" href="index.html">Return Home</a>
       </div>
-      <div class="hero-visual">
-        <div class="carousel">
-          <img src="3.png" alt="Creamy cake display 1" />
-          <img src="2.png" alt="Creamy cake display 2" />
-          <img src="1.png" alt="Creamy cake display 3" />
-          <img src="4.png" alt="Creamy cake display 4" />
-        </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80" alt="Bakery scene with books" />
       </div>
     </section>
 
-    <section class="info-grid">
-      <article class="info-card">
-        <h3>Soft design, bright experience</h3>
-        <p>Clean lines, creamy gradients, and a comforting white palette create a polished bakery brand that feels calm, premium, and inviting.</p>
-      </article>
-      <article class="info-card">
-        <h3>Curated cake showcase</h3>
-        <p>Every pastry is presented with attention to detail, soft textures, and elegant color storytelling that highlights flavor and craftsmanship.</p>
-      </article>
-      <article class="info-card">
-        <h3>Manga Library concept</h3>
-        <p>Explore a dedicated page where cake themes and manga-inspired stories meet, celebrating creativity through dessert and design.</p>
-      </article>
-    </section>
-
-    <section class="gallery">
-      <article class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80" alt="Layered cake with fruit" />
-        <div class="item-copy">
-          <h4>Signature Opera Cake</h4>
-          <p>Chocolate, coffee, and cream layers with a delicate finish. Ideal for celebration menus.</p>
+    <section class="cards">
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1542826438-9506b2ca5f03?auto=format&fit=crop&w=900&q=80" alt="Manga book cover" />
+        <div class="card-body">
+          <h2>Sweet Pages</h2>
+          <p>A collection of gentle manga stories that pair perfectly with cream-filled pastries and soft pastel interiors.</p>
+          <span class="tag">Comfort Read</span>
         </div>
       </article>
-      <article class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1505253212716-9d2af8a86d9a?auto=format&fit=crop&w=900&q=80" alt="Bakery pastry" />
-        <div class="item-copy">
-          <h4>Velvet Blossom Roll</h4>
-          <p>A soft, airy cake roll with floral aroma, wrapped in pastel glaze and seasonally inspired toppings.</p>
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?auto=format&fit=crop&w=900&q=80" alt="Cake and coffee" />
+        <div class="card-body">
+          <h2>Layered Worlds</h2>
+          <p>Explore stories with layered emotions and rich visuals, inspired by the delicate textures of our signature cakes.</p>
+          <span class="tag">Elegant Pairing</span>
         </div>
       </article>
-      <article class="gallery-item">
-        <img src="https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=900&q=80" alt="Dessert display" />
-        <div class="item-copy">
-          <h4>Classic Layered Tart</h4>
-          <p>Elegant textures and handmade details with a crisp crust and smooth cream filling.</p>
+      <article class="card">
+        <img src="https://images.unsplash.com/photo-1495214783159-3503fd1b572d?auto=format&fit=crop&w=900&q=80" alt="Dessert book scene" />
+        <div class="card-body">
+          <h2>Studio Notes</h2>
+          <p>Design stories for pastry makers, featuring journaling pages of recipe art, flavor sketches, and dreamy cafe scenes.</p>
+          <span class="tag">Creative Mood</span>
         </div>
       </article>
     </section>
 
+    <footer class="footer">
+      <p>Open <strong>index.html</strong> to see the main bakery landing page, or visit <strong>auth.html</strong> for the sign-in/register experience.</p>
+    </footer>
   </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const carousel = document.querySelector('.carousel');
-      const images = carousel.querySelectorAll('img');
-      let currentIndex = 0;
-
-      // Function to show next image with sliding effect
-      function showNextImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        const translateX = -currentIndex * 100;
-        carousel.style.transform = `translateX(${translateX}%)`;
-      }
-
-      // Start automatic carousel
-      setInterval(showNextImage, 3000); // Change image every 3 seconds
-    });
-  </script>
 </body>
 </html>
