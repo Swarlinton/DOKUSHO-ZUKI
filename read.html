@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Read Manga - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .reader {
+      text-align: center;
+    }
+
+    .manga-page {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      box-shadow: var(--shadow);
+      border-radius: 10px;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: #bea0ca;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 16px 28px rgba(130, 102, 210, 0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 40px rgba(130, 102, 210, 0.18);
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="manga-library.html"><i class="fas fa-book"></i> Manga Library</a>
+        <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
+      </nav>
+    </header>
+
+    <section class="reader">
+      <h1>Kamisama Kiss - Volume 1</h1>
+      <img src="kamikiss/1.jpg" alt="Manga Page 1" class="manga-page" />
+      <img src="kamikiss/2.jpg" alt="Manga Page 2" class="manga-page" />
+      <img src="kamikiss/3.jpg" alt="Manga Page 3" class="manga-page" />
+      <img src="kamikiss/4.jpg" alt="Manga Page 4" class="manga-page" />
+      <img src="kamikiss/5.jpg" alt="Manga Page 5" class="manga-page" />
+      <img src="kamikiss/6.jpg" alt="Manga Page 6" class="manga-page" />
+      <img src="kamikiss/7.jpg" alt="Manga Page 7" class="manga-page" />
+      <img src="kamikiss/8.jpg" alt="Manga Page 8" class="manga-page" />
+      <img src="kamikiss/9.jpg" alt="Manga Page 9" class="manga-page" />
+      <img src="kamikiss/10.jpg" alt="Manga Page 10" class="manga-page" />
+      <img src="kamikiss/11.jpg" alt="Manga Page 11" class="manga-page" />
+      <img src="kamikiss/12.jpg" alt="Manga Page 12" class="manga-page" />
+      <img src="kamikiss/13.jpg" alt="Manga Page 13" class="manga-page" />
+      <img src="kamikiss/14.jpg" alt="Manga Page 14" class="manga-page" />
+      <img src="kamikiss/15.jpg" alt="Manga Page 15" class="manga-page" />
+      <img src="kamikiss/16.jpg" alt="Manga Page 16" class="manga-page" />
+      <img src="kamikiss/17.jpg" alt="Manga Page 17" class="manga-page" />
+      <img src="kamikiss/18.jpg" alt="Manga Page 18" class="manga-page" />
+      <img src="kamikiss/19.jpg" alt="Manga Page 19" class="manga-page" />
+      <img src="kamikiss/20.jpg" alt="Manga Page 20" class="manga-page" />
+      <img src="kamikiss/21.jpg" alt="Manga Page 21" class="manga-page" />
+      <img src="kamikiss/22.jpg" alt="Manga Page 22" class="manga-page" />
+      <img src="kamikiss/23.jpg" alt="Manga Page 23" class="manga-page" />
+      <img src="kamikiss/24.jpg" alt="Manga Page 24" class="manga-page" />
+      <img src="kamikiss/25.jpg" alt="Manga Page 25" class="manga-page" />
+      <img src="kamikiss/26.jpg" alt="Manga Page 26" class="manga-page" />
+      <img src="kamikiss/27.jpg" alt="Manga Page 27" class="manga-page" />
+      <img src="kamikiss/28.jpg" alt="Manga Page 28" class="manga-page" />
+      <img src="kamikiss/29.jpg" alt="Manga Page 29" class="manga-page" />
+      <img src="kamikiss/30.jpg" alt="Manga Page 30" class="manga-page" />
+      <img src="kamikiss/31.jpg" alt="Manga Page 31" class="manga-page" />
+      <img src="kamikiss/32.jpg" alt="Manga Page 32" class="manga-page" />
+      <img src="kamikiss/33.jpg" alt="Manga Page 33" class="manga-page" />
+      <img src="kamikiss/34.jpg" alt="Manga Page 34" class="manga-page" />
+      <img src="kamikiss/35.jpg" alt="Manga Page 35" class="manga-page" />
+      <img src="kamikiss/36.jpg" alt="Manga Page 36" class="manga-page" />
+      <img src="kamikiss/37.jpg" alt="Manga Page 37" class="manga-page" />
+      <img src="kamikiss/38.jpg" alt="Manga Page 38" class="manga-page" />
+      <img src="kamikiss/39.jpg" alt="Manga Page 39" class="manga-page" />
+      <img src="kamikiss/40.jpg" alt="Manga Page 40" class="manga-page" />
+      <img src="kamikiss/41.jpg" alt="Manga Page 41" class="manga-page" />
+      <img src="kamikiss/42.jpg" alt="Manga Page 42" class="manga-page" />
+      <img src="kamikiss/43.jpg" alt="Manga Page 43" class="manga-page" />
+      <img src="kamikiss/44.jpg" alt="Manga Page 44" class="manga-page" />
+      <img src="kamikiss/45.jpg" alt="Manga Page 45" class="manga-page" />
+      <img src="kamikiss/46.jpg" alt="Manga Page 46" class="manga-page" />
+      <img src="kamikiss/47.jpg" alt="Manga Page 47" class="manga-page" />
+      <img src="kamikiss/48.jpg" alt="Manga Page 48" class="manga-page" />
+      <img src="kamikiss/49.jpg" alt="Manga Page 49" class="manga-page" />
+      <img src="kamikiss/50.jpg" alt="Manga Page 50" class="manga-page" />
+      <img src="kamikiss/51.jpg" alt="Manga Page 51" class="manga-page" />
+      <img src="kamikiss/52.jpg" alt="Manga Page 52" class="manga-page" />
+      <img src="kamikiss/53.jpg" alt="Manga Page 53" class="manga-page" />
+      <img src="kamikiss/54.jpg" alt="Manga Page 54" class="manga-page" />
+      <img src="kamikiss/55.jpg" alt="Manga Page 55" class="manga-page" />
+      <img src="kamikiss/56.jpg" alt="Manga Page 56" class="manga-page" />
+      <img src="kamikiss/57.jpg" alt="Manga Page 57" class="manga-page" />
+      <img src="kamikiss/58.jpg" alt="Manga Page 58" class="manga-page" />
+      <img src="kamikiss/59.jpg" alt="Manga Page 59" class="manga-page" />
+      <img src="kamikiss/60.jpg" alt="Manga Page 60" class="manga-page" />
+      <img src="kamikiss/61.jpg" alt="Manga Page 61" class="manga-page" />
+      <img src="kamikiss/62.jpg" alt="Manga Page 62" class="manga-page" />
+      <img src="kamikiss/63.jpg" alt="Manga Page 63" class="manga-page" />
+      <img src="kamikiss/64.jpg" alt="Manga Page 64" class="manga-page" />
+      <img src="kamikiss/65.jpg" alt="Manga Page 65" class="manga-page" />
+      <img src="kamikiss/66.jpg" alt="Manga Page 66" class="manga-page" />
+      <img src="kamikiss/67.jpg" alt="Manga Page 67" class="manga-page" />
+      <img src="kamikiss/68.jpg" alt="Manga Page 68" class="manga-page" />
+      <img src="kamikiss/69.jpg" alt="Manga Page 69" class="manga-page" />
+      <img src="kamikiss/70.jpg" alt="Manga Page 70" class="manga-page" />
+      <img src="kamikiss/71.jpg" alt="Manga Page 71" class="manga-page" />
+      <img src="kamikiss/72.jpg" alt="Manga Page 72" class="manga-page" />
+      <img src="kamikiss/73.jpg" alt="Manga Page 73" class="manga-page" />
+      <img src="kamikiss/74.jpg" alt="Manga Page 74" class="manga-page" />
+      <img src="kamikiss/75.jpg" alt="Manga Page 75" class="manga-page" />
+      <img src="kamikiss/76.jpg" alt="Manga Page 76" class="manga-page" />
+      <img src="kamikiss/77.jpg" alt="Manga Page 77" class="manga-page" />
+      <img src="kamikiss/78.jpg" alt="Manga Page 78" class="manga-page" />
+      <img src="kamikiss/79.jpg" alt="Manga Page 79" class="manga-page" />
+      <img src="kamikiss/80.jpg" alt="Manga Page 80" class="manga-page" />
+      <img src="kamikiss/81.jpg" alt="Manga Page 81" class="manga-page" />
+      <img src="kamikiss/82.jpg" alt="Manga Page 82" class="manga-page" />
+      <img src="kamikiss/83.jpg" alt="Manga Page 83" class="manga-page" />
+      <img src="kamikiss/84.jpg" alt="Manga Page 84" class="manga-page" />
+      <img src="kamikiss/85.jpg" alt="Manga Page 85" class="manga-page" />
+      <img src="kamikiss/86.jpg" alt="Manga Page 86" class="manga-page" />
+      <img src="kamikiss/87.jpg" alt="Manga Page 87" class="manga-page" />
+      <img src="kamikiss/88.jpg" alt="Manga Page 88" class="manga-page" />
+      <img src="kamikiss/89.jpg" alt="Manga Page 89" class="manga-page" />
+      <img src="kamikiss/90.jpg" alt="Manga Page 90" class="manga-page" />
+      <img src="kamikiss/91.jpg" alt="Manga Page 91" class="manga-page" />
+      <img src="kamikiss/92.jpg" alt="Manga Page 92" class="manga-page" />
+      <img src="kamikiss/93.jpg" alt="Manga Page 93" class="manga-page" />
+      <img src="kamikiss/94.jpg" alt="Manga Page 94" class="manga-page" />
+      <img src="kamikiss/95.jpg" alt="Manga Page 95" class="manga-page" />
+      <img src="kamikiss/96.jpg" alt="Manga Page 96" class="manga-page" />
+      <img src="kamikiss/97.jpg" alt="Manga Page 97" class="manga-page" />
+      <img src="kamikiss/98.jpg" alt="Manga Page 98" class="manga-page" />
+      <img src="kamikiss/99.jpg" alt="Manga Page 99" class="manga-page" />
+      <img src="kamikiss/100.jpg" alt="Manga Page 100" class="manga-page" />
+      <img src="kamikiss/101.jpg" alt="Manga Page 101" class="manga-page" />
+      <img src="kamikiss/102.jpg" alt="Manga Page 102" class="manga-page" />
+      <img src="kamikiss/103.jpg" alt="Manga Page 103" class="manga-page" />
+      <img src="kamikiss/104.jpg" alt="Manga Page 104" class="manga-page" />
+      <img src="kamikiss/105.jpg" alt="Manga Page 105" class="manga-page" />
+      <img src="kamikiss/106.jpg" alt="Manga Page 106" class="manga-page" />
+      <img src="kamikiss/107.jpg" alt="Manga Page 107" class="manga-page" />
+      <img src="kamikiss/108.jpg" alt="Manga Page 108" class="manga-page" />
+      <img src="kamikiss/109.jpg" alt="Manga Page 109" class="manga-page" />
+      <img src="kamikiss/110.jpg" alt="Manga Page 110" class="manga-page" />
+      <img src="kamikiss/111.jpg" alt="Manga Page 111" class="manga-page" />
+      <img src="kamikiss/112.jpg" alt="Manga Page 112" class="manga-page" />
+      <img src="kamikiss/113.jpg" alt="Manga Page 113" class="manga-page" />
+      <img src="kamikiss/114.jpg" alt="Manga Page 114" class="manga-page" />
+      <img src="kamikiss/115.jpg" alt="Manga Page 115" class="manga-page" />
+      <img src="kamikiss/116.jpg" alt="Manga Page 116" class="manga-page" />
+      <img src="kamikiss/117.jpg" alt="Manga Page 117" class="manga-page" />
+      <img src="kamikiss/118.jpg" alt="Manga Page 118" class="manga-page" />
+      <img src="kamikiss/119.jpg" alt="Manga Page 119" class="manga-page" />
+      <img src="kamikiss/120.jpg" alt="Manga Page 120" class="manga-page" />
+      <img src="kamikiss/121.jpg" alt="Manga Page 121" class="manga-page" />
+      <img src="kamikiss/122.jpg" alt="Manga Page 122" class="manga-page" />
+      <img src="kamikiss/123.jpg" alt="Manga Page 123" class="manga-page" />
+      <img src="kamikiss/124.jpg" alt="Manga Page 124" class="manga-page" />
+      <img src="kamikiss/125.jpg" alt="Manga Page 125" class="manga-page" />
+      <img src="kamikiss/126.jpg" alt="Manga Page 126" class="manga-page" />
+      <img src="kamikiss/127.jpg" alt="Manga Page 127" class="manga-page" />
+      <img src="kamikiss/128.jpg" alt="Manga Page 128" class="manga-page" />
+      <img src="kamikiss/129.jpg" alt="Manga Page 129" class="manga-page" />
+      <img src="kamikiss/130.jpg" alt="Manga Page 130" class="manga-page" />
+      <img src="kamikiss/131.jpg" alt="Manga Page 131" class="manga-page" />
+      <img src="kamikiss/132.jpg" alt="Manga Page 132" class="manga-page" />
+      <img src="kamikiss/133.jpg" alt="Manga Page 133" class="manga-page" />
+      <img src="kamikiss/134.jpg" alt="Manga Page 134" class="manga-page" />
+      <img src="kamikiss/135.jpg" alt="Manga Page 135" class="manga-page" />
+      <img src="kamikiss/136.jpg" alt="Manga Page 136" class="manga-page" />
+      <img src="kamikiss/137.jpg" alt="Manga Page 137" class="manga-page" />
+      <img src="kamikiss/138.jpg" alt="Manga Page 138" class="manga-page" />
+      <img src="kamikiss/139.jpg" alt="Manga Page 139" class="manga-page" />
+      <img src="kamikiss/140.jpg" alt="Manga Page 140" class="manga-page" />
+      <img src="kamikiss/141.jpg" alt="Manga Page 141" class="manga-page" />
+      <img src="kamikiss/142.jpg" alt="Manga Page 142" class="manga-page" />
+      <img src="kamikiss/143.jpg" alt="Manga Page 143" class="manga-page" />
+      <img src="kamikiss/144.jpg" alt="Manga Page 144" class="manga-page" />
+      <img src="kamikiss/145.jpg" alt="Manga Page 145" class="manga-page" />
+      <img src="kamikiss/146.jpg" alt="Manga Page 146" class="manga-page" />
+      <img src="kamikiss/147.jpg" alt="Manga Page 147" class="manga-page" />
+      <img src="kamikiss/148.jpg" alt="Manga Page 148" class="manga-page" />
+      <img src="kamikiss/149.jpg" alt="Manga Page 149" class="manga-page" />
+      <img src="kamikiss/150.jpg" alt="Manga Page 150" class="manga-page" />
+      <img src="kamikiss/151.jpg" alt="Manga Page 151" class="manga-page" />
+      <img src="kamikiss/152.jpg" alt="Manga Page 152" class="manga-page" />
+      <img src="kamikiss/153.jpg" alt="Manga Page 153" class="manga-page" />
+      <img src="kamikiss/154.jpg" alt="Manga Page 154" class="manga-page" />
+      <img src="kamikiss/155.jpg" alt="Manga Page 155" class="manga-page" />
+      <img src="kamikiss/156.jpg" alt="Manga Page 156" class="manga-page" />
+      <img src="kamikiss/157.jpg" alt="Manga Page 157" class="manga-page" />
+      <img src="kamikiss/158.jpg" alt="Manga Page 158" class="manga-page" />
+      <img src="kamikiss/159.jpg" alt="Manga Page 159" class="manga-page" />
+      <img src="kamikiss/160.jpg" alt="Manga Page 160" class="manga-page" />
+      <img src="kamikiss/161.jpg" alt="Manga Page 161" class="manga-page" />
+      <img src="kamikiss/162.jpg" alt="Manga Page 162" class="manga-page" />
+      <img src="kamikiss/163.jpg" alt="Manga Page 163" class="manga-page" />
+      <img src="kamikiss/164.jpg" alt="Manga Page 164" class="manga-page" />
+      <img src="kamikiss/165.jpg" alt="Manga Page 165" class="manga-page" />
+      <img src="kamikiss/166.jpg" alt="Manga Page 166" class="manga-page" />
+      <img src="kamikiss/167.jpg" alt="Manga Page 167" class="manga-page" />
+      <img src="kamikiss/168.jpg" alt="Manga Page 168" class="manga-page" />
+      <img src="kamikiss/169.jpg" alt="Manga Page 169" class="manga-page" />
+      <img src="kamikiss/170.jpg" alt="Manga Page 170" class="manga-page" />
+      <img src="kamikiss/171.jpg" alt="Manga Page 171" class="manga-page" />
+      <img src="kamikiss/172.jpg" alt="Manga Page 172" class="manga-page" />
+      <img src="kamikiss/173.jpg" alt="Manga Page 173" class="manga-page" />
+      <img src="kamikiss/174.jpg" alt="Manga Page 174" class="manga-page" />
+      <img src="kamikiss/175.jpg" alt="Manga Page 175" class="manga-page" />
+      <img src="kamikiss/176.jpg" alt="Manga Page 176" class="manga-page" />
+      <img src="kamikiss/177.jpg" alt="Manga Page 177" class="manga-page" />
+      <img src="kamikiss/178.jpg" alt="Manga Page 178" class="manga-page" />
+      <img src="kamikiss/179.jpg" alt="Manga Page 179" class="manga-page" />
+      <img src="kamikiss/180.jpg" alt="Manga Page 180" class="manga-page" />
+      <img src="kamikiss/181.jpg" alt="Manga Page 181" class="manga-page" />
+      <img src="kamikiss/182.jpg" alt="Manga Page 182" class="manga-page" />
+      <img src="kamikiss/183.jpg" alt="Manga Page 183" class="manga-page" />
+      <img src="kamikiss/184.jpg" alt="Manga Page 184" class="manga-page" />
+      <img src="kamikiss/185.jpg" alt="Manga Page 185" class="manga-page" />
+      <img src="kamikiss/186.jpg" alt="Manga Page 186" class="manga-page" />
+      <img src="kamikiss/187.jpg" alt="Manga Page 187" class="manga-page" />
+      <img src="kamikiss/188.jpg" alt="Manga Page 188" class="manga-page" />
+      <img src="kamikiss/189.jpg" alt="Manga Page 189" class="manga-page" />
+      <img src="kamikiss/190.jpg" alt="Manga Page 190" class="manga-page" />
+      <div class="navigation">
+        <a href="#" class="button">Previous</a>
+        <a href="#" class="button">Next</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
