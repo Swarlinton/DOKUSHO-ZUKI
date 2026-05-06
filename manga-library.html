@@ -121,10 +121,40 @@
       box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
       transition: transform 0.2s ease;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .manga-card:hover {
       transform: translateY(-5px);
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(130, 102, 210, 0.18);
+      color: #e63946;
+      text-decoration: none;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.12);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .favorite-btn:hover {
+      transform: translateY(-2px);
+      background: #fff;
+    }
+
+    .favorite-btn.active {
+      background: #e63946;
+      color: #fff;
     }
 
     .manga-card img {
@@ -327,6 +357,9 @@
           <i class="fas fa-filter"></i>
           Filters
         </button>
+        <a href="favorites.html" class="filter-toggle" style="background: #f7f3ff; color: var(--text); width: 52px; justify-content: center; padding: 10px 0;" aria-label="Favorites">
+          <i class="fas fa-heart"></i>
+        </a>
       </div>
       <div id="filterPanel" class="filter-panel" aria-hidden="true">
         <div class="filter-group">
@@ -338,14 +371,16 @@
         </div>
       </div>
       <div class="library-grid">
-        <article class="manga-card" data-genre="shojo">
+        <article class="manga-card" data-id="kamisama-kiss" data-title="Kamisama Kiss" data-author="Hajime Yamamoto" data-chapter="Chapter 18" data-genre="shojo" data-img="kamikiss1.jpg" data-link="read.html">
+          <button class="favorite-btn" type="button" aria-label="Toggle favorite for Kamisama Kiss"><i class="fas fa-heart"></i></button>
           <img src="kamikiss1.jpg" alt="Kamisama Kiss" />
           <h3>Kamisama Kiss</h3>
           <p class="description hidden">Kamisama Kiss is a whimsical shojo romance where homeless teen Nanami Momozono unexpectedly becomes a land god and must navigate divine duties, mischievous spirits, and her growing bond with the fox familiar Tomoe.</p>
           <button class="toggle-btn">Show Description</button>
           <a href="read.html" class="button">Read Now</a>
         </article>
-        <article class="manga-card" data-genre="shonen">
+        <article class="manga-card" data-id="soul-eater" data-title="Soul Eater" data-author="Atsushi Okubo" data-chapter="Chapter 18" data-genre="shonen" data-img="soul.jpg" data-link="read2.html">
+          <button class="favorite-btn" type="button" aria-label="Toggle favorite for Soul Eater"><i class="fas fa-heart"></i></button>
           <img src="soul.jpg" alt="Soul Eater" />
           <h3>Soul Eater</h3>
           <p class="description hidden">Soul Eater is a darkly stylish shonen action series where students at Death Weapon Meister Academy battle evil souls and witches to turn their partners into powerful weapons, blending gothic horror aesthetics with high-energy battles and quirky humor.</p>
@@ -382,6 +417,47 @@
           searchInput.addEventListener('input', updateLibrary);
           genreCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateLibrary));
 
+          const favoriteButtons = Array.from(document.querySelectorAll('.favorite-btn'));
+          const favorites = loadFavorites();
+
+          function updateFavoriteButtons() {
+            favoriteButtons.forEach(button => {
+              const card = button.closest('.manga-card');
+              const id = card.dataset.id;
+              if (favorites.includes(id)) {
+                button.classList.add('active');
+              } else {
+                button.classList.remove('active');
+              }
+            });
+          }
+
+          function saveFavorites() {
+            localStorage.setItem('favoriteManga', JSON.stringify(favorites));
+          }
+
+          function loadFavorites() {
+            return JSON.parse(localStorage.getItem('favoriteManga') || '[]');
+          }
+
+          favoriteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              const card = button.closest('.manga-card');
+              const id = card.dataset.id;
+              const index = favorites.indexOf(id);
+              if (index === -1) {
+                favorites.push(id);
+                button.classList.add('active');
+              } else {
+                favorites.splice(index, 1);
+                button.classList.remove('active');
+              }
+              saveFavorites();
+            });
+          });
+
+          updateFavoriteButtons();
+
           // Description toggle functionality
           document.querySelectorAll('.toggle-btn').forEach(button => {
             button.addEventListener('click', () => {
@@ -401,4 +477,10 @@
     </section>
   </main>
 </body>
+<script>
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || user.type !== 'user') {
+    window.location.href = 'auth.html';
+  }
+</script>
 </html>
