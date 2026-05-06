@@ -346,11 +346,11 @@
       renderFavorites();
     });
   </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'user') {
+      window.location.href = 'auth.html';
+    }
+  </script>
 </body>
-<script>
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (!user || user.type !== 'user') {
-    window.location.href = 'auth.html';
-  }
-</script>
 </html>
