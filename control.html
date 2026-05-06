@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platform Control Center - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    /* Container and Grid */
+.section {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(130, 102, 210, 0.12);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+  margin-top: 48px;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* Card Styling */
+.control-card {
+  background: #ffffff;
+  border: 1px solid rgba(130, 102, 210, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  text-align: left;
+}
+
+.control-card h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #2b2b3d;
+}
+
+/* Toggle Switch Styling */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.setting-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #2b2b3d;
+}
+
+.setting-info span {
+  font-size: 0.85rem;
+  color: #575771;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #dfe3ed;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4a3f6e;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Action Buttons */
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-btn {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #dfe3ed;
+  color: #2b2b3d;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-btn:hover { background: #d1d7e5; }
+
+.admin-btn.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+    .metric-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.08);
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 12px 0;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .metric-change {
+      color: #10b981;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .traffic-chart {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.08);
+      margin: 20px 0;
+    }
+
+    .chart-bar {
+      display: flex;
+      align-items: center;
+      margin: 12px 0;
+      gap: 12px;
+    }
+
+    .bar-label {
+      min-width: 80px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .bar-container {
+      flex: 1;
+      height: 24px;
+      background: rgba(190, 160, 202, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #bea0ca, #a855f7);
+      border-radius: 12px;
+      transition: width 0.3s;
+    }
+
+    .bar-value {
+      min-width: 60px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .list-item {
+      padding: 12px;
+      background: rgba(190, 160, 202, 0.05);
+      border-radius: 8px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="system.html"><i class="fas fa-cogs"></i> System Dashboard</a>
+        <a href="user.html"><i class="fas fa-users-cog"></i> User Administration</a>
+        <a href="control.html"><i class="fas fa-sliders-h"></i> Platform Control Center</a>
+        <a href="reports.html"><i class="fas fa-chart-line"></i> Reports/ Monitoring</a>
+        <a href="logout.html" class="nav-signup"><i class="fas fa-sign-out-alt"></i> Log-Out</a>
+      </nav>
+    </header>
+
+  <section class="section">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <h1 style="font-size: 2rem; color: #2b2b3d; margin-bottom: 10px;">Platform Control Center</h1>
+    <p style="color: #575771;">Manage platform-wide settings and configurations.</p>
+  </div>
+
+  <div class="control-grid">
+    <!-- Global Settings -->
+    <div class="control-card">
+      <h3><i class="fas fa-globe"></i> Global Settings</h3>
+      <div class="setting-row">
+        <div class="setting-info">
+          <strong>Maintenance Mode</strong>
+          <span>Take platform offline for maintenance</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="maintenance-mode">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-info">
+          <strong>User Registration</strong>
+          <span>Allow new user signups</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="control-card">
+      <h3><i class="fas fa-shield-alt"></i> Security</h3>
+      <div class="setting-row">
+        <div class="setting-info">
+          <strong>Two-Factor Authentication</strong>
+          <span>Require 2FA for admins</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <div class="setting-info">
+          <strong>Rate Limiting</strong>
+          <span>Limit API requests</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Database Management -->
+    <div class="control-card">
+      <h3><i class="fas fa-database"></i> Database Management</h3>
+      <div class="action-list">
+        <button class="admin-btn">Run Database Backup</button>
+        <button class="admin-btn">Optimize Database</button>
+        <button class="admin-btn">View Backup History</button>
+      </div>
+    </div>
+
+    <!-- System Actions -->
+    <div class="control-card">
+      <h3><i class="fas fa-cog"></i> System Actions</h3>
+      <div class="action-list">
+        <button class="admin-btn">Clear Cache</button>
+        <button class="admin-btn">Restart Services</button>
+        <button class="admin-btn danger">Emergency Shutdown</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'superadmin') {
+      window.location.href = 'auth.html';
+	  // Add interaction logic
+document.querySelectorAll('.admin-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const action = btn.innerText;
+    if (btn.classList.contains('danger')) {
+      if (confirm(`CRITICAL: Are you sure you want to trigger ${action}?`)) {
+        alert("Action initiated.");
+      }
+    } else {
+      alert(`Executing: ${action}`);
+    }
+  });
+});
+
+document.querySelectorAll('.switch input').forEach(toggle => {
+  toggle.addEventListener('change', (e) => {
+    const label = e.target.closest('.setting-row').querySelector('strong').innerText;
+    console.log(`${label} is now ${e.target.checked ? 'Enabled' : 'Disabled'}`);
+  });
+});
+    }
+  </script>
+</body>
+</html>

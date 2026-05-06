@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Administration - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    /* Update this section */
+.section {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(130, 102, 210, 0.12);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+  margin-top: 48px;
+  text-align: center; /* Add this line to center all content inside */
+}
+
+/* You can then remove this specific rule since it's now redundant */
+.section h1 {
+  /* text-align: center; <--- This is no longer needed */
+}
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(98, 74, 190, 0.08);
+    }
+
+    .stat-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .stat-card .label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 16px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .filter-select {
+      padding: 12px 16px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+    }
+
+    .user-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .user-row {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr 1.2fr 1.5fr 1fr;
+      gap: 16px;
+      align-items: center;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.08);
+    }
+
+    .user-row .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: none;
+    }
+
+    .user-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-item strong {
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .badge.active {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .badge.banned {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .badge.user {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .badge.admin {
+      background: rgba(168, 85, 247, 0.1);
+      color: #a855f7;
+    }
+
+    .badge.superadmin {
+      background: rgba(249, 115, 22, 0.1);
+      color: #f97316;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-edit {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-edit:hover {
+      filter: brightness(1.1);
+    }
+
+    @media (max-width: 1200px) {
+      .user-row {
+        grid-template-columns: 1fr;
+      }
+
+      .user-row .label {
+        display: block;
+      }
+
+      .user-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .search-box {
+        min-width: 100%;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="system.html"><i class="fas fa-server"></i> System</a>
+        <a href="user.html"><i class="fas fa-users-cog"></i> User Admin</a>
+        <a href="control.html"><i class="fas fa-sliders-h"></i> Control</a>
+        <a href="reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="logout.html" class="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h1><i class="fas fa-users-cog"></i> User Administration</h1>
+      <p>Manage users, roles, and permissions across the platform.</p>
+
+      <!-- User Statistics -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <div class="label">Total Users</div>
+          <div class="value" id="totalUsers">142</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon"><i class="fas fa-user-tie"></i></div>
+          <div class="label">Total Admins</div>
+          <div class="value" id="totalAdmins">8</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon"><i class="fas fa-crown"></i></div>
+          <div class="label">Super Admins</div>
+          <div class="value" id="totalSuperAdmins">2</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon"><i class="fas fa-ban"></i></div>
+          <div class="label">Banned Users</div>
+          <div class="value" id="bannedUsers">3</div>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="controls">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search by username or email...">
+        <select id="roleFilter" class="filter-select">
+          <option value="">All Roles</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+          <option value="superadmin">Super Admin</option>
+        </select>
+      </div>
+
+      <!-- User Grid -->
+      <div class="user-grid" id="userGrid">
+        <!-- Users will be populated by JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Super Admin Check
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'superadmin') {
+      window.location.href = 'auth.html';
+    }
+
+    // Sample users data
+    let users = JSON.parse(localStorage.getItem('superAdminUsers')) || [
+      { id: 'u1', name: 'Alice Smith', email: 'alice@example.com', role: 'user', status: 'active', lastActive: '2 minutes ago' },
+      { id: 'u2', name: 'Marcus Lee', email: 'marcus@example.com', role: 'user', status: 'active', lastActive: '15 minutes ago' },
+      { id: 'u3', name: 'Julia Park', email: 'julia@example.com', role: 'user', status: 'banned', lastActive: '3 days ago' },
+      { id: 'u4', name: 'Admin User', email: 'admin@example.com', role: 'admin', status: 'active', lastActive: 'just now' },
+      { id: 'u5', name: 'Super Admin', email: 'superadmin@example.com', role: 'superadmin', status: 'active', lastActive: 'just now' },
+      { id: 'u6', name: 'John Doe', email: 'john@example.com', role: 'user', status: 'active', lastActive: '1 hour ago' },
+      { id: 'u7', name: 'Sarah Wilson', email: 'sarah@example.com', role: 'admin', status: 'active', lastActive: '30 minutes ago' },
+      { id: 'u8', name: 'Banned User', email: 'banned@example.com', role: 'user', status: 'banned', lastActive: '1 week ago' },
+    ];
+
+    function calculateStats() {
+      document.getElementById('totalUsers').textContent = users.length;
+      document.getElementById('totalAdmins').textContent = users.filter(u => u.role === 'admin').length;
+      document.getElementById('totalSuperAdmins').textContent = users.filter(u => u.role === 'superadmin').length;
+      document.getElementById('bannedUsers').textContent = users.filter(u => u.status === 'banned').length;
+    }
+
+    function renderUsers(filteredUsers) {
+      const grid = document.getElementById('userGrid');
+      grid.innerHTML = '';
+
+      if (filteredUsers.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No users found</p>';
+        return;
+      }
+
+      filteredUsers.forEach(usr => {
+        const row = document.createElement('div');
+        row.className = 'user-row';
+        const roleClass = `badge ${usr.role}`;
+        const statusClass = `badge ${usr.status}`;
+        
+        row.innerHTML = `
+          <div class="user-item">
+            <span class="label">User</span>
+            <strong>${usr.name}</strong>
+          </div>
+          <div class="user-item">
+            <span class="label">Email</span>
+            <strong>${usr.email}</strong>
+          </div>
+          <div class="user-item">
+            <span class="label">Role</span>
+            <span class="${roleClass}">${usr.role.charAt(0).toUpperCase() + usr.role.slice(1)}</span>
+          </div>
+          <div class="user-item">
+            <span class="label">Status</span>
+            <span class="${statusClass}">${usr.status.charAt(0).toUpperCase() + usr.status.slice(1)}</span>
+          </div>
+          <div class="user-item">
+            <span class="label">Last Active</span>
+            <strong>${usr.lastActive}</strong>
+          </div>
+          <div class="user-item">
+            <span class="label">Actions</span>
+            <button class="btn btn-edit" onclick="editUser('${usr.id}')"><i class="fas fa-edit"></i> Edit</button>
+          </div>
+        `;
+        grid.appendChild(row);
+      });
+    }
+
+    function filterUsers() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const roleFilter = document.getElementById('roleFilter').value;
+
+      let filtered = users.filter(usr => {
+        const matchesSearch = usr.name.toLowerCase().includes(searchTerm) || usr.email.toLowerCase().includes(searchTerm);
+        const matchesRole = roleFilter === '' || usr.role === roleFilter;
+        return matchesSearch && matchesRole;
+      });
+
+      renderUsers(filtered);
+    }
+
+    function editUser(userId) {
+      alert(`Edit functionality for user ${userId}`);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterUsers);
+    document.getElementById('roleFilter').addEventListener('change', filterUsers);
+
+    calculateStats();
+    renderUsers(users);
+    localStorage.setItem('superAdminUsers', JSON.stringify(users));
+  </script>
+  <script>
+    // Logout functionality
+    const logoutBtn = document.querySelector('.nav-logout');
+    if (logoutBtn) {
+      logoutBtn.onclick = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user');
+        window.location.href = 'auth.html';
+      };
+    }
+  </script>
+</body>
+</html>

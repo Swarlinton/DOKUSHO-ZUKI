@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Moderation - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+      margin-top: 48px;
+    }
+
+    .section h1 {
+      text-align: center;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .metric-card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 16px 32px rgba(98, 74, 190, 0.08);
+      min-height: 130px;
+    }
+
+    .metric-card h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .metric-card p {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .upload-area {
+      margin-top: 34px;
+      padding: 40px;
+      border: 2px dashed rgba(130, 102, 210, 0.4);
+      border-radius: 30px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .upload-area.dragover {
+      border-color: #8a63cf;
+      background: #f7f2ff;
+    }
+
+    .upload-area h3 {
+      margin: 0 0 10px;
+      color: var(--accent);
+    }
+
+    .upload-area p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .upload-actions {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .upload-actions button {
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: none;
+      background: #bea0ca;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 16px 28px rgba(130, 102, 210, 0.14);
+    }
+
+    .recent-uploads {
+      margin-top: 36px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .recent-uploads th,
+    .recent-uploads td {
+      padding: 16px 14px;
+      border-bottom: 1px solid rgba(130, 102, 210, 0.12);
+      text-align: left;
+    }
+
+    .recent-uploads th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #d4ffdc;
+      color: #1f4d22;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="mangmanage.html"><i class="fas fa-book"></i> Manga Management</a>
+        <a href="usermanage.html"><i class="fas fa-users"></i> User Management</a>
+        <a href="contmod.html"><i class="fas fa-shield-alt"></i> Content Moderation</a>
+        <a href="profmag.html"><i class="fas fa-user-cog"></i> Profile Management</a>
+        <a href="logout.html" class="nav-signup"><i class="fas fa-sign-out-alt"></i> Log-Out</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h1>Content Moderation</h1>
+      <p>Manage digital uploads, keep chapters and files organized, and review content in one place.</p>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h2>Chapters</h2>
+          <p id="chapterCount">0</p>
+        </div>
+        <div class="metric-card">
+          <h2>Images</h2>
+          <p id="imageCount">0</p>
+        </div>
+        <div class="metric-card">
+          <h2>GIF Uploads</h2>
+          <p id="gifCount">0</p>
+        </div>
+      </div>
+
+      <div id="dropZone" class="upload-area">
+        <h3>Upload Files</h3>
+        <p>Drag files here or browse to upload chapters, images, and gifs for review.</p>
+        <div class="upload-actions">
+          <button type="button" id="browseFilesBtn"><i class="fas fa-folder-open"></i> Browse files</button>
+          <span id="uploadHint">Accepted: images, gifs, archive files</span>
+        </div>
+        <input id="fileInput" type="file" multiple style="display:none;" />
+      </div>
+
+      <table class="recent-uploads">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="uploadsTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'admin') {
+      window.location.href = 'auth.html';
+    }
+
+    const defaultUploads = [];
+    let uploads = JSON.parse(localStorage.getItem('adminUploads') || 'null') || defaultUploads;
+    const chapterCount = 2;
+    const imageCount = 218;
+
+    const dropZone = document.getElementById('dropZone');
+    const browseFilesBtn = document.getElementById('browseFilesBtn');
+    const fileInput = document.getElementById('fileInput');
+    const uploadsTable = document.getElementById('uploadsTable');
+    const chapterCountEl = document.getElementById('chapterCount');
+    const imageCountEl = document.getElementById('imageCount');
+    const gifCountEl = document.getElementById('gifCount');
+
+    browseFilesBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', event => handleFiles(event.target.files));
+
+    dropZone.addEventListener('dragover', event => {
+      event.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', event => {
+      event.preventDefault();
+      dropZone.classList.remove('dragover');
+      handleFiles(event.dataTransfer.files);
+    });
+
+    function handleFiles(files) {
+      const now = new Date();
+      Array.from(files).forEach(file => {
+        uploads.unshift({
+          name: file.name,
+          type: file.type || 'Unknown',
+          size: formatSize(file.size),
+          uploaded: now.toLocaleString(),
+          status: 'Uploaded'
+        });
+      });
+      localStorage.setItem('adminUploads', JSON.stringify(uploads));
+      renderUploads();
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function renderUploads() {
+      const gifCount = uploads.filter(upload => upload.type === 'image/gif').length;
+      chapterCountEl.textContent = chapterCount;
+      imageCountEl.textContent = imageCount;
+      gifCountEl.textContent = gifCount;
+
+      uploadsTable.innerHTML = uploads.map(upload => `
+        <tr>
+          <td>${upload.name}</td>
+          <td>${upload.type || 'Unknown'}</td>
+          <td>${upload.size}</td>
+          <td>${upload.uploaded}</td>
+          <td><span class="status-chip">${upload.status}</span></td>
+        </tr>
+      `).join('');
+
+      if (!uploads.length) {
+        uploadsTable.innerHTML = '<tr><td colspan="5" style="padding:20px; color: var(--muted);">No uploads yet. Use the upload area above to add new files.</td></tr>';
+      }
+    }
+
+    renderUploads();
+  </script>
+  <script>
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (navSignup) navSignup.style.display = 'none';
+  </script>
+</body>
+</html>

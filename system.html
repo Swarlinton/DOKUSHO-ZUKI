@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Dashboard - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8;
+    }
+
+    .nav-logout {
+      background: #bea0ca !important;
+      color: #2b2b3d !important;
+      font-weight: 700 !important;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+      margin-top: 40px;
+    }
+
+    h1, h2 {
+      margin-top: 0;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .status-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(98, 74, 190, 0.08);
+    }
+
+    .status-card h3 {
+      margin: 0 0 12px 0;
+      font-size: 1rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.operational {
+      background: var(--success);
+    }
+
+    .status-dot.degraded {
+      background: var(--warning);
+    }
+
+    .status-dot.offline {
+      background: var(--error);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .health-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .health-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.08);
+      text-align: center;
+    }
+
+    .health-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .health-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .health-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .health-badge.operational {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .health-badge.degraded {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .alert-section {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(98, 74, 190, 0.08);
+      margin: 20px 0;
+    }
+
+    .alert-item {
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.05);
+      border-left: 3px solid var(--error);
+      border-radius: 4px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .uptime-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .uptime-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(98, 74, 190, 0.08);
+    }
+
+    .uptime-card .percentage {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 8px 0;
+    }
+
+    .uptime-card .label {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .data-metric {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .data-metric .label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .data-metric .value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="system.html"><i class="fas fa-server"></i> System</a>
+        <a href="user.html"><i class="fas fa-users-cog"></i> User Admin</a>
+        <a href="control.html"><i class="fas fa-sliders-h"></i> Control</a>
+        <a href="reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="logout.html" class="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h1>System Dashboard</h1>
+      <p>Monitor server health, uptime, and system performance in real-time.</p>
+
+      <!-- Server Status -->
+      <h2><i class="fas fa-heartbeat"></i> Server Status</h2>
+      <div class="status-card">
+        <h3>Overall Status</h3>
+        <div class="status-indicator">
+          <div class="status-dot operational"></div>
+          <span id="serverStatus">Operational</span>
+        </div>
+        <p style="margin: 8px 0; color: var(--muted); font-size: 0.9rem;">Last checked: <span id="lastChecked">just now</span></p>
+      </div>
+
+      <!-- Database Status -->
+      <h2><i class="fas fa-database"></i> Database</h2>
+      <div class="status-grid">
+        <div class="data-metric">
+          <span class="label">Status</span>
+          <span class="status-indicator"><div class="status-dot operational"></div><span>Connected</span></span>
+        </div>
+        <div class="data-metric">
+          <span class="label">Size</span>
+          <span class="value" id="dbSize">2.4 GB</span>
+        </div>
+        <div class="data-metric">
+          <span class="label">Records</span>
+          <span class="value" id="dbRecords">15,240</span>
+        </div>
+        <div class="data-metric">
+          <span class="label">Last Backup</span>
+          <span class="value" id="lastBackup">6 hours ago</span>
+        </div>
+      </div>
+
+      <!-- Uptime -->
+      <h2><i class="fas fa-chart-area"></i> Uptime (Last 30 Days)</h2>
+      <div class="uptime-grid">
+        <div class="uptime-card">
+          <div class="label">Overall Uptime</div>
+          <div class="percentage" id="uptimePercentage">99.87%</div>
+        </div>
+        <div class="uptime-card">
+          <div class="label">Downtime</div>
+          <div class="percentage" id="downtimeHours">3.1 hrs</div>
+        </div>
+        <div class="uptime-card">
+          <div class="label">Incidents</div>
+          <div class="percentage" id="incidents">1</div>
+        </div>
+        <div class="uptime-card">
+          <div class="label">Avg Response</div>
+          <div class="percentage" id="avgResponse">124 ms</div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <h2><i class="fas fa-bell"></i> Alerts</h2>
+      <div class="alert-section">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <div>
+            <strong>Total Alerts:</strong> <span id="totalAlerts" style="font-size: 1.3rem; color: var(--accent); font-weight: 700;">2</span>
+          </div>
+        </div>
+        <div id="alertsList">
+          <div class="alert-item">
+            <div>
+              <strong>High CPU Usage Detected</strong>
+              <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 0.9rem;">Processor at 87% capacity</p>
+            </div>
+            <span style="color: var(--error);">⚠️ Urgent</span>
+          </div>
+          <div class="alert-item" style="background: rgba(245, 158, 11, 0.05); border-left-color: var(--warning);">
+            <div>
+              <strong>Database Query Slow</strong>
+              <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 0.9rem;">Some queries taking >5s</p>
+            </div>
+            <span style="color: var(--warning);">⚠️ Warning</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Health -->
+      <h2><i class="fas fa-stethoscope"></i> System Health</h2>
+      <div class="health-grid">
+        <div class="health-card">
+          <div class="icon"><i class="fas fa-server"></i></div>
+          <h4>API Server</h4>
+          <div class="health-badge operational">Operational</div>
+        </div>
+        <div class="health-card">
+          <div class="icon"><i class="fas fa-database"></i></div>
+          <h4>Database</h4>
+          <div class="health-badge operational">Operational</div>
+        </div>
+        <div class="health-card">
+          <div class="icon"><i class="fas fa-hdd"></i></div>
+          <h4>Storage</h4>
+          <div class="health-badge operational">Operational</div>
+        </div>
+        <div class="health-card">
+          <div class="icon"><i class="fas fa-broadcast-tower"></i></div>
+          <h4>CDN</h4>
+          <div class="health-badge operational">Operational</div>
+        </div>
+        <div class="health-card">
+          <div class="icon"><i class="fas fa-envelope"></i></div>
+          <h4>Email Service</h4>
+          <div class="health-badge operational">Operational</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Super Admin Check
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'superadmin') {
+      window.location.href = 'auth.html';
+    }
+
+    // Hide Sign-In/Register button when logged in
+    const navLogout = document.querySelector('.nav-logout');
+    if (navLogout) {
+      navLogout.href = 'auth.html';
+      navLogout.onclick = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user');
+        window.location.href = 'auth.html';
+      };
+    }
+
+    // Initialize system stats
+    let systemStats = JSON.parse(localStorage.getItem('systemStats')) || {
+      uptime: 99.87,
+      dbSize: '2.4 GB',
+      dbRecords: 15240,
+      lastBackup: '6 hours ago',
+      alerts: 2,
+      avgResponse: 124,
+      downtimeHours: 3.1,
+      incidents: 1
+    };
+
+    function updateLastChecked() {
+      const now = new Date();
+      document.getElementById('lastChecked').textContent = now.toLocaleTimeString();
+    }
+
+    function simulateRealtimeData() {
+      // Simulate slight variations in real-time data
+      const variance = Math.random() * 0.1 - 0.05;
+      systemStats.uptime = Math.max(99.0, Math.min(100, 99.87 + variance));
+      
+      // Update display
+      document.getElementById('uptimePercentage').textContent = systemStats.uptime.toFixed(2) + '%';
+      document.getElementById('avgResponse').textContent = (120 + Math.random() * 20).toFixed(0) + ' ms';
+      
+      updateLastChecked();
+    }
+
+    // Update every 5 seconds for real-time feel
+    setInterval(simulateRealtimeData, 5000);
+    simulateRealtimeData();
+
+    localStorage.setItem('systemStats', JSON.stringify(systemStats));
+  </script>
+</body>
+</html>

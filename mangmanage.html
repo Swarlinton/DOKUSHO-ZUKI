@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manga Management - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+      margin-top: 48px;
+    }
+
+    .section h1 {
+      text-align: center;
+    }
+
+    .manage-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .search-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-group input,
+    .search-group select {
+      padding: 12px 14px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      min-width: 180px;
+    }
+
+    .add-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: none;
+      background: #bea0ca;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 16px 28px rgba(130, 102, 210, 0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .add-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .manga-form {
+      display: none;
+      margin-top: 30px;
+      background: white;
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 16px 32px rgba(98, 74, 190, 0.08);
+    }
+
+    .manga-form .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .manga-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .manga-form input,
+    .manga-form select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .manga-form .file-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .manga-form .file-name {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .manga-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+
+    .manga-table th,
+    .manga-table td {
+      padding: 16px 14px;
+      border-bottom: 1px solid rgba(130, 102, 210, 0.12);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .manga-table th {
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      font-size: 0.95rem;
+    }
+
+    .manga-table td:last-child {
+      width: 145px;
+    }
+
+    .action-icon {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 1rem;
+      margin-right: 12px;
+    }
+
+    .action-icon:last-child {
+      margin-right: 0;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .manage-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .manga-form .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="mangmanage.html"><i class="fas fa-book"></i> Manga Management</a>
+        <a href="usermanage.html"><i class="fas fa-users"></i> User Management</a>
+        <a href="contmod.html"><i class="fas fa-shield-alt"></i> Content Moderation</a>
+        <a href="profmag.html"><i class="fas fa-user-cog"></i> Profile Management</a>
+        <a href="logout.html" class="nav-signup"><i class="fas fa-sign-out-alt"></i> Log-Out</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h1>Manga Management</h1>
+      <p>Manage manga titles, add new ones, edit existing entries, and keep your library updated.</p>
+
+      <div class="manage-toolbar">
+        <div class="search-group">
+          <input type="text" id="searchInput" placeholder="Search manga...">
+          <select id="genreFilter">
+            <option value="all">All Genres</option>
+            <option value="Action">Action</option>
+            <option value="Romance">Romance</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Adventure">Adventure</option>
+          </select>
+        </div>
+        <button id="addMangaBtn" class="add-action"><i class="fas fa-plus"></i> Add New Manga</button>
+      </div>
+
+      <form id="manga-form" class="manga-form">
+        <div class="form-row">
+          <div>
+            <label for="mangaTitle">Title</label>
+            <input id="mangaTitle" type="text" required>
+          </div>
+          <div>
+            <label for="mangaAuthor">Author</label>
+            <input id="mangaAuthor" type="text" required>
+          </div>
+          <div>
+            <label for="mangaChapters">Chapters</label>
+            <input id="mangaChapters" type="number" min="1" required>
+          </div>
+          <div>
+            <label for="mangaStatus">Status</label>
+            <select id="mangaStatus">
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+              <option value="Hiatus">Hiatus</option>
+            </select>
+          </div>
+          <div>
+            <label for="mangaGenre">Genre</label>
+            <select id="mangaGenre">
+              <option value="Action">Action</option>
+              <option value="Romance">Romance</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="Adventure">Adventure</option>
+            </select>
+          </div>
+        </div>
+        <div class="file-row">
+          <label for="coverUpload" class="add-action"><i class="fas fa-upload"></i> Upload Cover</label>
+          <input id="coverUpload" type="file" accept="image/*" style="display:none;">
+          <span id="coverFileName" class="file-name">No file selected</span>
+        </div>
+        <div style="margin-top: 24px; display:flex; gap:12px; flex-wrap:wrap;">
+          <button type="submit" class="add-action">Save Manga</button>
+          <button type="button" id="cancelMangaBtn" class="add-action" style="background:#f44336; color:white;">Cancel</button>
+        </div>
+      </form>
+
+      <table class="manga-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Chapters</th>
+            <th>Status</th>
+            <th>Genre</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="mangaTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'admin') {
+      window.location.href = 'auth.html';
+    }
+
+    const defaultManga = [
+      { id: 'm1', title: 'Kamisama Kiss', author: 'Julietta Suzuki', chapters: 6, status: 'Ongoing', genre: 'Romance', cover: 'kamikiss1.jpg' },
+      { id: 'm2', title: 'Soul Eater', author: 'Atsushi Okubo', chapters: 4, status: 'Completed', genre: 'Action', cover: 'soul.jpg' }
+    ];
+
+    let manga = JSON.parse(localStorage.getItem('adminManga') || 'null') || defaultManga;
+    let editingId = null;
+
+    const searchInput = document.getElementById('searchInput');
+    const genreFilter = document.getElementById('genreFilter');
+    const mangaTable = document.getElementById('mangaTable');
+    const addMangaBtn = document.getElementById('addMangaBtn');
+    const mangaForm = document.getElementById('manga-form');
+    const cancelMangaBtn = document.getElementById('cancelMangaBtn');
+    const coverUpload = document.getElementById('coverUpload');
+    const coverFileName = document.getElementById('coverFileName');
+    const titleInput = document.getElementById('mangaTitle');
+    const authorInput = document.getElementById('mangaAuthor');
+    const chaptersInput = document.getElementById('mangaChapters');
+    const statusInput = document.getElementById('mangaStatus');
+    const genreInput = document.getElementById('mangaGenre');
+
+    addMangaBtn.addEventListener('click', () => {
+      mangaForm.style.display = mangaForm.style.display === 'block' ? 'none' : 'block';
+      resetForm();
+    });
+
+    cancelMangaBtn.addEventListener('click', () => {
+      mangaForm.style.display = 'none';
+      resetForm();
+    });
+
+    coverUpload.addEventListener('change', () => {
+      const file = coverUpload.files[0];
+      coverFileName.textContent = file ? file.name : 'No file selected';
+    });
+
+    searchInput.addEventListener('input', renderMangaTable);
+    genreFilter.addEventListener('change', renderMangaTable);
+
+    document.getElementById('manga-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newManga = {
+        id: editingId || 'm' + Date.now(),
+        title: titleInput.value,
+        author: authorInput.value,
+        chapters: Number(chaptersInput.value),
+        status: statusInput.value,
+        genre: genreInput.value,
+        cover: coverUpload.files[0] ? coverUpload.files[0].name : ''
+      };
+
+      if (editingId) {
+        manga = manga.map(item => item.id === editingId ? newManga : item);
+      } else {
+        manga.unshift(newManga);
+      }
+
+      localStorage.setItem('adminManga', JSON.stringify(manga));
+      renderMangaTable();
+      mangaForm.style.display = 'none';
+      resetForm();
+    });
+
+    function resetForm() {
+      editingId = null;
+      titleInput.value = '';
+      authorInput.value = '';
+      chaptersInput.value = '';
+      statusInput.value = 'Ongoing';
+      genreInput.value = 'Action';
+      coverUpload.value = '';
+      coverFileName.textContent = 'No file selected';
+    }
+
+    function renderMangaTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const genre = genreFilter.value;
+      const filtered = manga.filter(item => {
+        const matchesQuery = item.title.toLowerCase().includes(query) || item.author.toLowerCase().includes(query);
+        const matchesGenre = genre === 'all' || item.genre === genre;
+        return matchesQuery && matchesGenre;
+      });
+
+      mangaTable.innerHTML = filtered.map(item => `
+        <tr>
+          <td>${item.title}</td>
+          <td>${item.author}</td>
+          <td>${item.chapters}</td>
+          <td>${item.status}</td>
+          <td>${item.genre}</td>
+          <td>
+            <button class="action-icon" title="Edit" onclick="editManga('${item.id}')"><i class="fas fa-edit"></i></button>
+            <button class="action-icon" title="Delete" onclick="deleteManga('${item.id}')"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        </tr>
+      `).join('');
+
+      if (!filtered.length) {
+        mangaTable.innerHTML = '<tr><td colspan="6" style="padding: 20px; color: var(--muted);">No manga found.</td></tr>';
+      }
+    }
+
+    function editManga(id) {
+      const item = manga.find(m => m.id === id);
+      if (!item) return;
+      editingId = id;
+      titleInput.value = item.title;
+      authorInput.value = item.author;
+      chaptersInput.value = item.chapters;
+      statusInput.value = item.status;
+      genreInput.value = item.genre;
+      coverFileName.textContent = item.cover || 'No file selected';
+      mangaForm.style.display = 'block';
+      window.scrollTo({ top: mangaForm.offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function deleteManga(id) {
+      manga = manga.filter(item => item.id !== id);
+      localStorage.setItem('adminManga', JSON.stringify(manga));
+      renderMangaTable();
+    }
+
+    window.editManga = editManga;
+    window.deleteManga = deleteManga;
+
+    renderMangaTable();
+  </script>
+  <script>
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (navSignup) navSignup.style.display = 'none';
+  </script>
+</body>
+</html>
