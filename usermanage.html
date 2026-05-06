@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+      margin-top: 48px;
+    }
+
+    .section h1 {
+      text-align: center;
+    }
+
+    .user-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .user-toolbar input,
+    .user-toolbar select {
+      padding: 12px 14px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      min-width: 180px;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+
+    .user-table th,
+    .user-table td {
+      padding: 16px 14px;
+      border-bottom: 1px solid rgba(130, 102, 210, 0.12);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .user-table th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .status-pill.active {
+      background: #d4ffdc;
+      color: #1f4d22;
+    }
+
+    .status-pill.banned {
+      background: #ffd6d6;
+      color: #7f1d1d;
+    }
+
+    .action-icon {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 1rem;
+      margin-right: 12px;
+    }
+
+    .action-icon:last-child {
+      margin-right: 0;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .user-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="mangmanage.html"><i class="fas fa-book"></i> Manga Management</a>
+        <a href="usermanage.html"><i class="fas fa-users"></i> User Management</a>
+        <a href="contmod.html"><i class="fas fa-shield-alt"></i> Content Moderation</a>
+        <a href="profmag.html"><i class="fas fa-user-cog"></i> Profile Management</a>
+        <a href="logout.html" class="nav-signup"><i class="fas fa-sign-out-alt"></i> Log-Out</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <h1>User Management</h1>
+      <p>Manage user accounts, roles, and account status from one place.</p>
+
+      <div class="user-toolbar">
+        <input id="searchInput" type="text" placeholder="Search users by name or email...">
+        <select id="statusFilter">
+          <option value="all">All Users</option>
+          <option value="active">Active</option>
+          <option value="banned">Banned</option>
+        </select>
+      </div>
+
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.type !== 'admin') {
+      window.location.href = 'auth.html';
+    }
+
+    const defaultUsers = [
+      { id: 'u1', name: 'Alice Smith', email: 'alice@example.com', role: 'user', status: 'active', joined: '2024-01-10' },
+      { id: 'u2', name: 'Marcus Lee', email: 'marcus@example.com', role: 'user', status: 'active', joined: '2024-02-22' },
+      { id: 'u3', name: 'Julia Park', email: 'julia@example.com', role: 'user', status: 'banned', joined: '2023-12-08' },
+      { id: 'u4', name: 'Ethan Brown', email: 'ethan@example.com', role: 'user', status: 'active', joined: '2024-03-12' }
+    ];
+
+    let users = JSON.parse(localStorage.getItem('adminUsers') || 'null') || defaultUsers;
+
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const userTable = document.getElementById('userTable');
+
+    searchInput.addEventListener('input', renderUsers);
+    statusFilter.addEventListener('change', renderUsers);
+
+    function renderUsers() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filter = statusFilter.value;
+      const filtered = users.filter(user => {
+        const matchesQuery = user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query);
+        const matchesStatus = filter === 'all' || user.status === filter;
+        return matchesQuery && matchesStatus;
+      });
+
+      userTable.innerHTML = filtered.map(user => `
+        <tr>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.role}</td>
+          <td><span class="status-pill ${user.status}">${user.status.charAt(0).toUpperCase() + user.status.slice(1)}</span></td>
+          <td>${user.joined}</td>
+          <td>
+            <button class="action-icon" title="Keep" onclick="keepUser('${user.id}')"><i class="fas fa-user-check"></i></button>
+            <button class="action-icon" title="Remove" onclick="removeUser('${user.id}')"><i class="fas fa-user-slash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+
+      if (!filtered.length) {
+        userTable.innerHTML = '<tr><td colspan="6" style="padding:20px; color: var(--muted);">No users match the search or filter.</td></tr>';
+      }
+    }
+
+    function keepUser(id) {
+      users = users.map(user => user.id === id ? { ...user, status: 'active' } : user);
+      localStorage.setItem('adminUsers', JSON.stringify(users));
+      renderUsers();
+    }
+
+    function removeUser(id) {
+      users = users.map(user => user.id === id ? { ...user, status: 'banned' } : user);
+      localStorage.setItem('adminUsers', JSON.stringify(users));
+      renderUsers();
+    }
+
+    window.keepUser = keepUser;
+    window.removeUser = removeUser;
+
+    renderUsers();
+  </script>
+  <script>
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (navSignup) navSignup.style.display = 'none';
+  </script>
+</body>
+</html>

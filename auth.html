@@ -190,6 +190,17 @@
   </div>
 
   <script>
+    const existingUser = JSON.parse(localStorage.getItem('user'));
+    if (existingUser) {
+      if (existingUser.type === 'admin') {
+        window.location.href = 'dashboard.html';
+      } else if (existingUser.type === 'superadmin') {
+        window.location.href = 'system.html';
+      } else {
+        window.location.href = 'index.html';
+      }
+    }
+
     function showForm(form) {
       const signinForm = document.getElementById('signin-form');
       const registerForm = document.getElementById('register-form');
@@ -199,13 +210,10 @@
       const signinSwitch = document.getElementById('signin-switch');
       const registerSwitch = document.querySelector('.switch');
 
-      // Hide all forms
       signinForm.style.display = 'none';
       registerForm.style.display = 'none';
       adminForm.style.display = 'none';
       superadminForm.style.display = 'none';
-
-      // Remove active class from all tabs
       tabs.forEach(tab => tab.classList.remove('active'));
 
       if (form === 'signin') {
@@ -231,12 +239,10 @@
       }
     }
 
-    // Handle form submits
     document.getElementById('signin-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('signin-email').value;
       const password = document.getElementById('signin-password').value;
-      // Simulate login
       localStorage.setItem('user', JSON.stringify({ email, type: 'user' }));
       window.location.href = 'index.html';
     });
@@ -246,7 +252,9 @@
       const name = document.getElementById('register-name').value;
       const email = document.getElementById('register-email').value;
       const password = document.getElementById('register-password').value;
-      // Simulate register
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      users.push({ name, email, password, type: 'user', status: 'active', joined: new Date().toLocaleDateString() });
+      localStorage.setItem('users', JSON.stringify(users));
       localStorage.setItem('user', JSON.stringify({ name, email, type: 'user' }));
       localStorage.setItem('userProfile', JSON.stringify({
         avatar: '',
@@ -264,7 +272,6 @@
       e.preventDefault();
       const email = document.getElementById('admin-email').value;
       const password = document.getElementById('admin-password').value;
-      // Simulate admin login
       localStorage.setItem('user', JSON.stringify({ email, type: 'admin' }));
       window.location.href = 'dashboard.html';
     });
@@ -273,7 +280,6 @@
       e.preventDefault();
       const email = document.getElementById('superadmin-email').value;
       const password = document.getElementById('superadmin-password').value;
-      // Simulate super admin login
       localStorage.setItem('user', JSON.stringify({ email, type: 'superadmin' }));
       window.location.href = 'system.html';
     });
