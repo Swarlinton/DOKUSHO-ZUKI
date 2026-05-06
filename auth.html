@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In / Register - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .auth-container {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 18px 40px rgba(134, 110, 212, 0.08);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .auth-container h1 {
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .tab.active {
+      border-bottom-color: #bea0ca;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(130, 102, 210, 0.2);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: none;
+      background: #bea0ca;
+      color: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 16px 28px rgba(130, 102, 210, 0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 40px rgba(130, 102, 210, 0.18);
+    }
+
+    .switch {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .switch a {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h1>DOKUSHO-ZUKI</h1>
+    <div class="tabs">
+      <button class="tab active" onclick="showForm('signin')">Sign In</button>
+      <button class="tab" onclick="showForm('register')">Register</button>
+      <button class="tab" onclick="showForm('admin')">Admin</button>
+      <button class="tab" onclick="showForm('superadmin')">Super Admin</button>
+    </div>
+    <form id="signin-form">
+      <div class="form-group">
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" name="password" required>
+      </div>
+      <button type="submit" class="button">Sign In</button>
+    </form>
+    <form id="register-form" style="display: none;">
+      <div class="form-group">
+        <label for="register-name">Name</label>
+        <input type="text" id="register-name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" name="password" required>
+      </div>
+      <button type="submit" class="button">Register</button>
+    </form>
+    <form id="admin-form" style="display: none;">
+      <div class="form-group">
+        <label for="admin-email">Admin Email</label>
+        <input type="email" id="admin-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" name="password" required>
+      </div>
+      <button type="submit" class="button">Admin Sign In</button>
+    </form>
+    <form id="superadmin-form" style="display: none;">
+      <div class="form-group">
+        <label for="superadmin-email">Super Admin Email</label>
+        <input type="email" id="superadmin-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="superadmin-password">Password</label>
+        <input type="password" id="superadmin-password" name="password" required>
+      </div>
+      <button type="submit" class="button">Super Admin Sign In</button>
+    </form>
+    <p class="switch">Don't have an account? <a href="#" onclick="showForm('register')">Register here</a></p>
+    <p class="switch" id="signin-switch" style="display: none;">Already have an account? <a href="#" onclick="showForm('signin')">Sign in here</a></p>
+    <p class="switch"><a href="#" onclick="showForm('admin')">Admin Login</a> | <a href="#" onclick="showForm('superadmin')">Super Admin Login</a></p>
+  </div>
+
+  <script>
+    function showForm(form) {
+      const signinForm = document.getElementById('signin-form');
+      const registerForm = document.getElementById('register-form');
+      const adminForm = document.getElementById('admin-form');
+      const superadminForm = document.getElementById('superadmin-form');
+      const tabs = document.querySelectorAll('.tab');
+      const signinSwitch = document.getElementById('signin-switch');
+      const registerSwitch = document.querySelector('.switch');
+
+      // Hide all forms
+      signinForm.style.display = 'none';
+      registerForm.style.display = 'none';
+      adminForm.style.display = 'none';
+      superadminForm.style.display = 'none';
+
+      // Remove active class from all tabs
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      if (form === 'signin') {
+        signinForm.style.display = 'block';
+        tabs[0].classList.add('active');
+        signinSwitch.style.display = 'none';
+        registerSwitch.style.display = 'block';
+      } else if (form === 'register') {
+        registerForm.style.display = 'block';
+        tabs[1].classList.add('active');
+        signinSwitch.style.display = 'block';
+        registerSwitch.style.display = 'none';
+      } else if (form === 'admin') {
+        adminForm.style.display = 'block';
+        tabs[2].classList.add('active');
+        signinSwitch.style.display = 'none';
+        registerSwitch.style.display = 'none';
+      } else if (form === 'superadmin') {
+        superadminForm.style.display = 'block';
+        tabs[3].classList.add('active');
+        signinSwitch.style.display = 'none';
+        registerSwitch.style.display = 'none';
+      }
+    }
+
+    // Handle form submits
+    document.getElementById('signin-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value;
+      const password = document.getElementById('signin-password').value;
+      // Simulate login
+      localStorage.setItem('user', JSON.stringify({ email, type: 'user' }));
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('register-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      // Simulate register
+      localStorage.setItem('user', JSON.stringify({ name, email, type: 'user' }));
+      localStorage.setItem('userProfile', JSON.stringify({
+        avatar: '',
+        nickname: name,
+        email: email,
+        status: 'Active',
+        joined: new Date().toLocaleDateString(),
+        books: '0',
+        favorites: ''
+      }));
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('admin-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('admin-email').value;
+      const password = document.getElementById('admin-password').value;
+      // Simulate admin login
+      localStorage.setItem('user', JSON.stringify({ email, type: 'admin' }));
+      window.location.href = 'dashboard.html';
+    });
+
+    document.getElementById('superadmin-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('superadmin-email').value;
+      const password = document.getElementById('superadmin-password').value;
+      // Simulate super admin login
+      localStorage.setItem('user', JSON.stringify({ email, type: 'superadmin' }));
+      window.location.href = 'system.html';
+    });
+  </script>
+</body>
+</html>
