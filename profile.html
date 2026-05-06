@@ -220,13 +220,13 @@
     }
 
     .save-btn {
-      background: #4CAF50;
-      color: white;
+      background: #bea0ca;
+      color: var(--accent);
     }
 
     .cancel-btn {
-      background: #f44336;
-      color: white;
+      background: #bea0ca;;
+      color: var(--accent);
     }
 
     @media (max-width: 900px) {
@@ -259,7 +259,7 @@
 
     <section class="profile-section">
       <div class="profile-avatar">
-        <img id="avatar-img" src="" alt="Avatar" style="display: none;">
+        <img id="avatar-img" src="" alt=" " style="display: none;">
         <label for="avatar-upload" class="avatar-upload">
           <i class="fas fa-camera"></i>
         </label>
@@ -282,16 +282,25 @@
           </select>
         </div>
         <p><strong>Joined:</strong> <span id="display-joined">January 2023</span></p>
-        <p><strong>Books Read:</strong> <span id="display-books">42</span></p>
         <p><strong>Favorite Manga:</strong> <span id="display-favorites">Kamisama Kiss, Soul Eater</span></p>
         <div>
           <label for="edit-favorites">Favorite Manga (comma separated)</label>
           <input type="text" id="edit-favorites" value="Kamisama Kiss, Soul Eater">
         </div>
       </div>
+
+      <!-- Reading History Section -->
+<div style="margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(130, 102, 210, 0.12); text-align: left;">
+  <h3 style="margin: 0 0 20px 0; text-align: center;">Reading History</h3>
+  <div id="reading-history" style="display: grid; gap: 12px; max-width: 600px; margin: 0 auto;">
+    <!-- History items will be injected here by JS -->
+  </div>
+</div>
+
       <button id="edit-btn" class="button">Edit Profile</button>
       <button id="save-btn" class="button save-btn" style="display: none;">Save</button>
       <button id="cancel-btn" class="button cancel-btn" style="display: none;">Cancel</button>
+      <button id="logout-btn" class="button cancel-btn">Logout</button>
     </section>
   </main>
 </body>
@@ -306,6 +315,7 @@
     const editBtn = document.getElementById('edit-btn');
     const saveBtn = document.getElementById('save-btn');
     const cancelBtn = document.getElementById('cancel-btn');
+    const logoutBtn = document.getElementById('logout-btn');
     const profileSection = document.querySelector('.profile-section');
     const avatarUpload = document.getElementById('avatar-upload');
     const avatarImg = document.getElementById('avatar-img');
@@ -316,9 +326,9 @@
     const displayStatus = document.getElementById('display-status');
     const editStatus = document.getElementById('edit-status');
     const displayJoined = document.getElementById('display-joined');
-    const displayBooks = document.getElementById('display-books');
     const displayFavorites = document.getElementById('display-favorites');
     const editFavorites = document.getElementById('edit-favorites');
+    const readingHistoryDiv = document.getElementById('reading-history');
 
     // Load from localStorage
     loadProfile();
@@ -350,6 +360,12 @@
       editBtn.style.display = 'inline-flex';
       saveBtn.style.display = 'none';
       cancelBtn.style.display = 'none';
+      loadProfile();
+    });
+
+    logoutBtn.addEventListener('click', function() {
+      localStorage.removeItem('user');
+      window.location.href = 'auth.html';
     });
 
     avatarUpload.addEventListener('change', function(event) {
@@ -372,29 +388,82 @@
         email: displayEmail.textContent,
         status: displayStatus.textContent,
         joined: displayJoined.textContent,
-        books: displayBooks.textContent,
         favorites: displayFavorites.textContent
       };
       localStorage.setItem('userProfile', JSON.stringify(profile));
     }
 
     function loadProfile() {
-      const profile = JSON.parse(localStorage.getItem('userProfile'));
-      if (profile) {
-        if (profile.avatar) {
-          avatarImg.src = profile.avatar;
-          avatarImg.style.display = 'block';
-        }
-        displayNickname.textContent = profile.nickname;
-        profileName.textContent = profile.nickname;
-        displayEmail.textContent = profile.email;
-        displayStatus.textContent = profile.status;
-        displayJoined.textContent = profile.joined;
-        displayBooks.textContent = profile.books;
-        displayFavorites.textContent = profile.favorites;
+      const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
+      if (profile.avatar) {
+        avatarImg.src = profile.avatar;
+        avatarImg.style.display = 'block';
       }
+      const userEmail = user?.email || profile.email || 'user@example.com';
+      const nickname = profile.nickname || user?.name || 'User Name';
+      displayNickname.textContent = nickname;
+      profileName.textContent = nickname;
+      displayEmail.textContent = userEmail;
+      displayStatus.textContent = profile.status || 'Active';
+      displayFavorites.textContent = profile.favorites || '';
+      if (profile.joined) {
+        displayJoined.textContent = profile.joined;
+      } else {
+        const joinedNow = new Date().toLocaleString();
+        displayJoined.textContent = joinedNow;
+        profile.joined = joinedNow;
+        profile.email = userEmail;
+        profile.nickname = nickname;
+        profile.status = displayStatus.textContent;
+        profile.favorites = displayFavorites.textContent;
+        localStorage.setItem('userProfile', JSON.stringify(profile));
+      }
+      renderReadingHistory();
+    }
+
+    function renderReadingHistory() {
+      const history = JSON.parse(localStorage.getItem('readingHistory')) || [];
+      readingHistoryDiv.innerHTML = '';
+      
+      if (history.length === 0) {
+        readingHistoryDiv.innerHTML = '<p style="color: var(--muted);">No reading history yet. Start reading to build your history!</p>';
+        return;
+      }
+
+      history.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.style.cssText = 'padding: 12px; background: rgba(190, 160, 202, 0.1); border-radius: 8px; border-left: 3px solid #bea0ca;';
+        historyItem.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: var(--text);">${item.title}</strong>
+              <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 0.9rem;">${item.timestamp}</p>
+            </div>
+          </div>
+        `;
+        readingHistoryDiv.appendChild(historyItem);
+      });
     }
   });
+
+  // Hide Sign-In/Register button when logged in
+  const navSignup = document.querySelector('.nav-signup');
+  if (navSignup) navSignup.style.display = 'none';
+
+  // Global function to track reading
+  window.addToReadingHistory = function(mangaTitle) {
+    const history = JSON.parse(localStorage.getItem('readingHistory')) || [];
+    const timestamp = new Date().toLocaleString();
+    history.unshift({ title: mangaTitle, timestamp: timestamp });
+    if (history.length > 20) history.pop();
+    localStorage.setItem('readingHistory', JSON.stringify(history));
+  };
+  // Sample data for testing (Remove this once your library page is linked!)
+if (!localStorage.getItem('readingHistory')) {
+    addToReadingHistory("Kamisama Kiss - Chapter 1");
+    addToReadingHistory("Soul Eater - Chapter 15");
+    renderReadingHistory(); // Refresh the display
+}
 </script>
 </body>
 </html>
