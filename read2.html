@@ -191,6 +191,16 @@
       img.className = 'manga-page';
       readerContent.appendChild(img);
     }
+
+    // Track reading history
+    if (window.addToReadingHistory) {
+      window.addToReadingHistory('Soul Eater - Volume 1');
+    }
+  </script>
+  <script>
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (navSignup) navSignup.style.display = 'none';
   </script>
 </body>
 </html>
