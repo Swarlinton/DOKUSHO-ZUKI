@@ -145,7 +145,7 @@ header .nav a.nav-signup:hover {
       align-items: center;
       justify-content: center;
       min-width: 170px;
-      padding: 14px 22px;
+      padding: 10px 22px;
       border-radius: 999px;
       border: none;
       background: #bea0ca;
@@ -169,6 +169,88 @@ header .nav a.nav-signup:hover {
   max-width: 900px; 
   aspect-ratio: 16 / 9; 
   box-shadow: var(--shadow);
+}
+
+.community-forum {
+  margin-top: 36px;
+  background: #f9f7ff;
+  border: 1px solid rgba(130, 102, 210, 0.16);
+  border-radius: 32px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(98, 74, 190, 0.08);
+}
+
+.community-forum h2 {
+  margin: 0 0 10px;
+  font-size: 1.6rem;
+}
+
+.community-forum .forum-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.community-forum .forum-meta span {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.community-forum textarea {
+  width: 100%;
+  min-height: 110px;
+  border-radius: 20px;
+  border: 1px solid rgba(130, 102, 210, 0.25);
+  padding: 16px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.community-forum button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: #4a3f6e;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.community-forum button:hover {
+  background: #5f4f8c;
+}
+
+.community-forum .comments-list {
+  margin-top: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.community-forum .comment {
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid rgba(130, 102, 210, 0.1);
+  padding: 18px 20px;
+}
+
+.community-forum .comment strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.community-forum .comment p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted);
 }
 
 .carousel {
@@ -292,7 +374,7 @@ header .nav a.nav-signup:hover {
       margin-right: 6px;
     }
 
-   .footer {
+    .footer {
       background: #bea0ca;
       color: #2b2b3d;
       padding: 20px 0;
@@ -333,6 +415,9 @@ header .nav a.nav-signup:hover {
         <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
         <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
         <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
         <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
         <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
       </nav>
@@ -354,6 +439,32 @@ header .nav a.nav-signup:hover {
           <img src="2.png" alt="ADS" />
           <img src="1.png" alt="ADS" />
           <img src="4.png" alt="ADS" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Continue Reading Section -->
+    <section id="continue-reading-section" style="margin-top: 48px; display: none;">
+      <h2 style="font-size: 1.8rem; margin-bottom: 24px; color: #2b2b3d;">Continue Reading</h2>
+      <div id="continue-reading-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-bottom: 48px;">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <section class="community-forum">
+      <div class="forum-meta">
+        <div>
+          <h2>Community Forum</h2>
+          <span>Welcome, <strong id="forum-username">Guest</strong></span>
+        </div>
+        <span>Share your manga thoughts and join the conversation.</span>
+      </div>
+      <textarea id="forum-comment" placeholder="Write a comment..."></textarea>
+      <button id="forum-submit">Post Comment</button>
+      <div class="comments-list" id="comments-list">
+        <div class="comment">
+          <strong>Community</strong>
+          <p>Welcome to the forum! Share your favorite manga and join the chat.</p>
         </div>
       </div>
     </section>
@@ -432,7 +543,82 @@ header .nav a.nav-signup:hover {
       }
 
       setInterval(showNextImage, 3000);
+
+      // Render Continue Reading section
+      const continueReadingSection = document.getElementById('continue-reading-section');
+      const continueReadingContainer = document.getElementById('continue-reading-container');
+      const readingHistory = JSON.parse(localStorage.getItem('readingHistory')) || [];
+      
+      if (readingHistory.length > 0) {
+        continueReadingSection.style.display = 'block';
+        continueReadingContainer.innerHTML = readingHistory.slice(0, 6).map(item => `
+          <div style="background: rgba(255, 255, 255, 0.76); border: 1px solid rgba(130, 102, 210, 0.12); border-radius: 16px; padding: 16px; box-shadow: 0 10px 25px rgba(98, 74, 190, 0.08); cursor: pointer; transition: transform 0.2s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="background: #e6e6fa; border-radius: 8px; padding: 20px; margin-bottom: 12px; text-align: center;">
+              <i class="fas fa-book" style="font-size: 2rem; color: #bea0ca;"></i>
+            </div>
+            <h4 style="margin: 0 0 8px 0; color: #2b2b3d; font-weight: 700;">${item.title}</h4>
+            <p style="margin: 0 0 8px 0; color: #575771; font-size: 0.85rem;">Ch. ${item.chapter} • Pg. ${item.page}</p>
+            <p style="margin: 0; color: #7f77a4; font-size: 0.8rem;"><i class="fas fa-clock"></i> Continue</p>
+          </div>
+        `).join('');
+      }
+
+      // Community forum behavior
+      const user = JSON.parse(localStorage.getItem('user')) || {};
+      const forumUsername = document.getElementById('forum-username');
+      const commentInput = document.getElementById('forum-comment');
+      const commentsList = document.getElementById('comments-list');
+      const submitButton = document.getElementById('forum-submit');
+      const forumUser = user.username || 'Guest';
+
+      if (forumUsername) {
+        forumUsername.textContent = forumUser;
+      }
+
+      function addComment(author, text) {
+        const comment = document.createElement('div');
+        comment.className = 'comment';
+        comment.innerHTML = `<strong>${author}</strong><p>${text}</p>`;
+        commentsList.appendChild(comment);
+      }
+
+      submitButton?.addEventListener('click', () => {
+        const text = commentInput.value.trim();
+        if (!text) return;
+        addComment(forumUser, text);
+        commentInput.value = '';
+      });
     });
+  </script>
+  <script>
+    // Auth logic: Show logout button when logged in, hide sign in when logged out
+    function updateAuthNav() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const navSignup = document.querySelector('.nav-signup');
+      const nav = document.querySelector('.nav');
+      
+      if (user && user.email) {
+        // User is logged in - replace sign in button with logout button
+        if (navSignup) {
+          navSignup.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+          navSignup.href = '#';
+          navSignup.onclick = function(e) {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            localStorage.removeItem('userProfile');
+            window.location.href = 'index.html';
+          };
+        }
+      } else {
+        // User is not logged in - show sign in button
+        if (navSignup) {
+          navSignup.style.display = 'inline-block';
+        }
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', updateAuthNav);
+    updateAuthNav();
   </script>
 </body>
 </html>

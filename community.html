@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Forums - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .forum-controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .topic-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .topic-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid #bea0ca;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .topic-btn:hover {
+      background: #bea0ca;
+      color: #2b2b3d;
+    }
+
+    .topic-btn.active {
+      background: #bea0ca;
+      color: #2b2b3d;
+    }
+
+    .new-post-btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #bea0ca;
+      color: #2b2b3d;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .new-post-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(98, 74, 190, 0.15);
+    }
+
+    .posts-container {
+      display: grid;
+      gap: 20px;
+    }
+
+    .post-card {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(98, 74, 190, 0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .post-author {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .post-date {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .post-topic {
+      display: inline-block;
+      background: #e6e6fa;
+      color: #4a3f6e;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .post-content {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 12px 0 16px 0;
+    }
+
+    .post-stats {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(130, 102, 210, 0.1);
+      padding-top: 16px;
+    }
+
+    .post-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.5rem;
+    }
+
+    .empty-state p {
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .forum-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="manga-library.html"><i class="fas fa-book"></i> Manga Library</a>
+        <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
+      </nav>
+    </header>
+
+    <section class="page-header">
+      <h1>Community Forums</h1>
+      <p>Join the conversation about your favorite manga, share recommendations, and connect with readers worldwide.</p>
+    </section>
+
+    <section class="forum-controls">
+      <div class="topic-filter">
+        <button class="topic-btn active" data-topic="all"><i class="fas fa-th"></i> All Topics</button>
+        <button class="topic-btn" data-topic="shonen"><i class="fas fa-star"></i> Shōnen</button>
+        <button class="topic-btn" data-topic="shojo"><i class="fas fa-heart"></i> Shōjo</button>
+        <button class="topic-btn" data-topic="seinen"><i class="fas fa-users"></i> Seinen</button>
+        <button class="topic-btn" data-topic="josei"><i class="fas fa-sparkles"></i> Josei</button>
+        <button class="topic-btn" data-topic="announcements"><i class="fas fa-bullhorn"></i> Announcements</button>
+        <button class="topic-btn" data-topic="fanart"><i class="fas fa-palette"></i> Fanart</button>
+        <button class="topic-btn" data-topic="recommendations"><i class="fas fa-thumbs-up"></i> Recommendations</button>
+      </div>
+      <button class="new-post-btn" id="new-post-btn"><i class="fas fa-plus"></i> New Post</button>
+    </section>
+
+    <section class="posts-container" id="posts-container">
+      <!-- Posts will be rendered here -->
+    </section>
+  </main>
+
+  <script>
+    // Check login
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (user && user.type === 'user') {
+      navSignup.style.display = 'none';
+    }
+
+    // Forum topics
+    const TOPICS = ['all', 'shonen', 'shojo', 'seinen', 'josei', 'announcements', 'fanart', 'recommendations'];
+    let currentTopic = 'all';
+    let posts = JSON.parse(localStorage.getItem('forumPosts')) || [];
+
+    // Default sample posts
+    if (posts.length === 0) {
+      posts = [
+        {
+          id: 1,
+          title: 'Best Shōnen Recommendations',
+          author: 'MangaFan',
+          date: new Date(Date.now() - 86400000).toLocaleDateString(),
+          topic: 'shonen',
+          content: 'Looking for some great shōnen manga with amazing action sequences. What are your top picks? I\'ve recently finished Attack on Titan and want something similar!',
+          replies: 12,
+          likes: 45
+        },
+        {
+          id: 2,
+          title: 'New Series Announcement',
+          author: 'Admin',
+          date: new Date().toLocaleDateString(),
+          topic: 'announcements',
+          content: 'Welcome to DOKUSHO-ZUKI Community Forums! We\'re excited to launch this space for all manga enthusiasts. Share your thoughts, recommendations, and artwork here.',
+          replies: 28,
+          likes: 89
+        },
+        {
+          id: 3,
+          title: 'Beautiful Fanart Collection',
+          author: 'ArtLover',
+          date: new Date(Date.now() - 172800000).toLocaleDateString(),
+          topic: 'fanart',
+          content: 'I\'ve been collecting amazing fanart from various artists. Check out my gallery and let me know your favorites!',
+          replies: 15,
+          likes: 62
+        }
+      ];
+      localStorage.setItem('forumPosts', JSON.stringify(posts));
+    }
+
+    const newPostBtn = document.getElementById('new-post-btn');
+    const postsContainer = document.getElementById('posts-container');
+    const topicBtns = document.querySelectorAll('.topic-btn');
+
+    // Topic filter event listeners
+    topicBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        topicBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentTopic = this.dataset.topic;
+        renderPosts();
+      });
+    });
+
+    // New post button
+    newPostBtn.addEventListener('click', function() {
+      if (!user || user.type !== 'user') {
+        alert('Please log in to create a post.');
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      const title = prompt('Post Title:');
+      if (!title) return;
+
+      const content = prompt('Post Content:');
+      if (!content) return;
+
+      const topic = prompt('Select Topic (shonen/shojo/seinen/josei/announcements/fanart/recommendations):').toLowerCase();
+      if (!TOPICS.includes(topic) && topic !== 'all') {
+        alert('Invalid topic!');
+        return;
+      }
+
+      const newPost = {
+        id: posts.length + 1,
+        title: title,
+        author: user.name || 'Anonymous',
+        date: new Date().toLocaleDateString(),
+        topic: topic,
+        content: content,
+        replies: 0,
+        likes: 0
+      };
+
+      posts.unshift(newPost);
+      localStorage.setItem('forumPosts', JSON.stringify(posts));
+      renderPosts();
+      alert('Post created successfully!');
+    });
+
+    function renderPosts() {
+      const filteredPosts = currentTopic === 'all' ? posts : posts.filter(p => p.topic === currentTopic);
+
+      if (filteredPosts.length === 0) {
+        postsContainer.innerHTML = `
+          <div class="empty-state">
+            <h2>No Posts Yet</h2>
+            <p>Be the first to start a conversation in this topic!</p>
+          </div>
+        `;
+        return;
+      }
+
+      postsContainer.innerHTML = filteredPosts.map(post => `
+        <div class="post-card">
+          <div class="post-header">
+            <h3 class="post-title">${post.title}</h3>
+          </div>
+          <div class="post-meta">
+            <span class="post-author"><i class="fas fa-user-circle"></i> ${post.author}</span>
+            <span class="post-date"><i class="fas fa-calendar"></i> ${post.date}</span>
+            <span class="post-topic">${post.topic.charAt(0).toUpperCase() + post.topic.slice(1)}</span>
+          </div>
+          <p class="post-content">${post.content}</p>
+          <div class="post-stats">
+            <div class="post-stat"><i class="fas fa-reply"></i> ${post.replies} replies</div>
+            <div class="post-stat"><i class="fas fa-heart"></i> ${post.likes} likes</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderPosts();
+  </script>
+</body>
+</html>

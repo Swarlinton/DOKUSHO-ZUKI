@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manga History - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .timeline-container {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+      align-items: start;
+    }
+
+    .timeline-item:nth-child(odd) .content {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(odd) .marker {
+      grid-column: 2;
+    }
+
+    .timeline-item:nth-child(odd) .visual {
+      grid-column: 3;
+    }
+
+    .timeline-item:nth-child(even) .visual {
+      grid-column: 1;
+    }
+
+    .timeline-item:nth-child(even) .marker {
+      grid-column: 2;
+    }
+
+    .timeline-item:nth-child(even) .content {
+      grid-column: 3;
+    }
+
+    .marker {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .marker::before {
+      content: "";
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #bea0ca, transparent);
+    }
+
+    .marker-circle {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #bea0ca;
+      border: 3px solid white;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px rgba(190, 160, 202, 0.2);
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(98, 74, 190, 0.08);
+    }
+
+    .content h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+
+    .content .year {
+      display: inline-block;
+      background: #e6e6fa;
+      color: #4a3f6e;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .content p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .visual {
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .visual i {
+      font-size: 3rem;
+      color: #bea0ca;
+    }
+
+    @media (max-width: 1024px) {
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .timeline-item:nth-child(odd) .content,
+      .timeline-item:nth-child(even) .content {
+        grid-column: 1;
+        text-align: left;
+      }
+
+      .timeline-item:nth-child(odd) .visual,
+      .timeline-item:nth-child(even) .visual {
+        grid-column: 1;
+        display: none;
+      }
+
+      .timeline-item:nth-child(odd) .marker,
+      .timeline-item:nth-child(even) .marker {
+        grid-column: 1;
+        margin-bottom: 16px;
+      }
+
+      .marker {
+        justify-content: flex-start;
+        padding-left: 20px;
+      }
+
+      .marker::before {
+        display: none;
+      }
+
+      .marker-circle {
+        left: 0;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .intro-section {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(98, 74, 190, 0.08);
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .intro-section h2 {
+      margin: 0 0 16px 0;
+      font-size: 1.8rem;
+      color: #bea0ca;
+    }
+
+    .intro-section p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="manga-library.html"><i class="fas fa-book"></i> Manga Library</a>
+        <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
+      </nav>
+    </header>
+
+    <section class="page-header">
+      <h1>History of Manga</h1>
+      <p>Explore the rich and fascinating evolution of manga from its origins to the global phenomenon it is today.</p>
+    </section>
+
+    <section class="intro-section">
+      <h2>What is Manga?</h2>
+      <p>Manga (漫画) is a Japanese term that literally means "whimsical pictures" or "casual sketches." Today, it refers to Japanese comic books and graphic novels that have become a major influence on global popular culture. From action-packed adventures to heartfelt romances, manga covers every imaginable genre and appeals to readers of all ages.</p>
+    </section>
+
+    <section class="timeline-container">
+      <div class="timeline-item">
+        <div class="content">
+          <span class="year">Pre-1900s</span>
+          <h3>Ancient Origins</h3>
+          <p>The roots of manga can be traced back to Japanese art forms like scroll paintings and woodblock prints. Artists explored sequential storytelling through visual narratives, laying the foundation for modern manga.</p>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="visual">
+          <i class="fas fa-scroll"></i>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="visual">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="content">
+          <span class="year">Early 1900s</span>
+          <h3>Birth of Modern Manga</h3>
+          <p>During the early 20th century, manga began to develop its modern form. Influenced by Western comics and Japanese traditions, artists started creating serialized stories in newspapers and magazines.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="content">
+          <span class="year">1945-1960s</span>
+          <h3>Post-War Boom</h3>
+          <p>After World War II, manga exploded in popularity as an affordable form of entertainment. This era saw the creation of iconic works that defined genres like shōnen and shōjo manga. Authors like Osamu Tezuka revolutionized the medium with their innovative storytelling.</p>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="visual">
+          <i class="fas fa-rocket"></i>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="visual">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="content">
+          <span class="year">1970s-1980s</span>
+          <h3>Golden Age of Manga</h3>
+          <p>This period marked the golden age of manga, with titles like "Dragon Ball," "Akira," and "Sailor Moon" becoming household names. Magazine circulation reached unprecedented levels, and manga became deeply embedded in Japanese culture.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="content">
+          <span class="year">1990s</span>
+          <h3>Anime & Adaptation Boom</h3>
+          <p>Many manga series were adapted into anime, introducing them to international audiences. The 1990s saw tremendous growth in both the manga industry and its connection to digital media and entertainment.</p>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="visual">
+          <i class="fas fa-film"></i>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="visual">
+          <i class="fas fa-globe"></i>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="content">
+          <span class="year">2000s</span>
+          <h3>Global Expansion</h3>
+          <p>Manga began gaining significant traction outside of Japan. English translations became more common, and international publishers started investing in manga distribution. The global manga market began to flourish.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="content">
+          <span class="year">2010s-2020s</span>
+          <h3>Digital Revolution</h3>
+          <p>The rise of digital platforms and manga reading apps transformed how people consume manga. Online serialization, webtoons, and digital distribution became mainstream. Manga achieved unprecedented global recognition and revenue.</p>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="visual">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="visual">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="marker">
+          <div class="marker-circle"></div>
+        </div>
+        <div class="content">
+          <span class="year">Today</span>
+          <h3>A Global Phenomenon</h3>
+          <p>Manga is now a multi-billion dollar industry with a dedicated global fanbase. Platforms like DOKUSHO-ZUKI connect readers worldwide, communities celebrate their favorite series, and manga continues to influence entertainment across all media. The future of manga looks brighter than ever.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Check login
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (user && user.type === 'user') {
+      navSignup.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

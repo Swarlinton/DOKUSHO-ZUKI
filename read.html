@@ -168,6 +168,9 @@
         <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
         <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
         <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
         <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
         <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
       </nav>
@@ -368,8 +371,60 @@
       <div class="navigation">
         <a href="#" class="button">Previous</a>
         <a href="#" class="button">Next</a>
-      </div>
-    </section>
   </main>
+  <script>
+    // Reading history tracking
+    const mangaTitle = 'Kamisama Kiss';
+    const mangaId = '001';
+    const mangaImages = document.querySelectorAll('.manga-page');
+    let currentPageIndex = 0;
+    
+    // Auto-update reading history on page change
+    function updateReadingHistory() {
+      const currentPage = currentPageIndex + 1;
+      const chapter = 1; // This would be dynamic based on current chapter
+      
+      if (window.addToReadingHistory) {
+        window.addToReadingHistory(mangaTitle, mangaId, chapter, currentPage);
+      }
+    }
+    
+    // Update history every 5 seconds while reading
+    setInterval(updateReadingHistory, 5000);
+    
+    // Update history when page is about to close
+    window.addEventListener('beforeunload', updateReadingHistory);
+    
+    // Initialize with current page
+    updateReadingHistory();
+    
+    // Auth logic: Show logout button when logged in
+    function updateAuthNav() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const navSignup = document.querySelector('.nav-signup');
+      
+      if (user && user.email) {
+        // User is logged in - replace sign in button with logout button
+        if (navSignup) {
+          navSignup.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+          navSignup.href = '#';
+          navSignup.onclick = function(e) {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            localStorage.removeItem('userProfile');
+            window.location.href = 'index.html';
+          };
+        }
+      } else {
+        // User is not logged in - show sign in button
+        if (navSignup) {
+          navSignup.style.display = 'inline-block';
+        }
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', updateAuthNav);
+    updateAuthNav();
+  </script>
 </body>
 </html>

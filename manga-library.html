@@ -340,6 +340,9 @@
         <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
         <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
         <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
         <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
         <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
       </nav>
@@ -482,5 +485,10 @@
   if (!user || user.type !== 'user') {
     window.location.href = 'auth.html';
   }
+</script>
+<script>
+  // Hide Sign-In/Register button when logged in
+  const navSignup = document.querySelector('.nav-signup');
+  if (navSignup) navSignup.style.display = 'none';
 </script>
 </html>

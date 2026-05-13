@@ -252,6 +252,9 @@
         <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
         <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
         <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
         <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
         <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
       </nav>
@@ -300,22 +303,42 @@
       <button id="edit-btn" class="button">Edit Profile</button>
       <button id="save-btn" class="button save-btn" style="display: none;">Save</button>
       <button id="cancel-btn" class="button cancel-btn" style="display: none;">Cancel</button>
-      <button id="logout-btn" class="button cancel-btn">Logout</button>
     </section>
   </main>
-</body>
 <script>
-  // Check login
   const user = JSON.parse(localStorage.getItem('user'));
   if (!user || user.type !== 'user') {
     window.location.href = 'auth.html';
   }
 
+  function updateAuthNav() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const navSignup = document.querySelector('.nav-signup');
+
+    if (user && user.email) {
+      if (navSignup) {
+        navSignup.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+        navSignup.href = '#';
+        navSignup.onclick = function(e) {
+          e.preventDefault();
+          localStorage.removeItem('user');
+          localStorage.removeItem('userProfile');
+          window.location.href = 'index.html';
+        };
+      }
+    } else {
+      if (navSignup) {
+        navSignup.style.display = 'inline-block';
+      }
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
+    updateAuthNav();
+
     const editBtn = document.getElementById('edit-btn');
     const saveBtn = document.getElementById('save-btn');
     const cancelBtn = document.getElementById('cancel-btn');
-    const logoutBtn = document.getElementById('logout-btn');
     const profileSection = document.querySelector('.profile-section');
     const avatarUpload = document.getElementById('avatar-upload');
     const avatarImg = document.getElementById('avatar-img');
@@ -330,8 +353,87 @@
     const editFavorites = document.getElementById('edit-favorites');
     const readingHistoryDiv = document.getElementById('reading-history');
 
-    // Load from localStorage
-    loadProfile();
+    function saveProfile() {
+      const profile = {
+        avatar: avatarImg.src,
+        nickname: displayNickname.textContent,
+        email: displayEmail.textContent,
+        status: displayStatus.textContent,
+        joined: displayJoined.textContent,
+        favorites: displayFavorites.textContent
+      };
+      localStorage.setItem('userProfile', JSON.stringify(profile));
+    }
+
+    function renderReadingHistory() {
+      const history = JSON.parse(localStorage.getItem('readingHistory')) || [];
+      readingHistoryDiv.innerHTML = '';
+
+      if (history.length === 0) {
+        readingHistoryDiv.innerHTML = '<p style="color: var(--muted);">No reading history yet. Start reading to build your history!</p>';
+        return;
+      }
+
+      history.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.style.cssText = 'padding: 16px; background: rgba(190, 160, 202, 0.1); border-radius: 8px; border-left: 4px solid #bea0ca; margin-bottom: 8px;';
+
+        const lastReadDate = item.timestamp ? new Date(item.timestamp) : new Date();
+        const formattedDate = lastReadDate.toLocaleDateString() + ' ' + lastReadDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        historyItem.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 12px; margin-bottom: 8px;">
+                <span style="background: #e6e6fa; color: #4a3f6e; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">ID: ${item.mangaId || 'N/A'}</span>
+                <span style="background: #f0e6ff; color: #4a3f6e; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Ch. ${item.chapter || 'N/A'} | Pg. ${item.page || 'N/A'}</span>
+              </div>
+              <strong style="color: var(--text); display: block; margin-bottom: 4px;">${item.title || 'Untitled'}</strong>
+              <p style="margin: 0; color: var(--muted); font-size: 0.9rem;"><i class="fas fa-clock"></i> Last read: ${formattedDate}</p>
+            </div>
+            <button type="button" data-manga-id="${item.mangaId || ''}" style="background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.9rem;"><i class="fas fa-times"></i></button>
+          </div>
+        `;
+
+        historyItem.querySelector('button')?.addEventListener('click', function() {
+          const mangaId = this.dataset.mangaId;
+          if (!mangaId) return;
+          const updated = (JSON.parse(localStorage.getItem('readingHistory')) || []).filter(entry => entry.mangaId !== mangaId);
+          localStorage.setItem('readingHistory', JSON.stringify(updated));
+          renderReadingHistory();
+        });
+
+        readingHistoryDiv.appendChild(historyItem);
+      });
+    }
+
+    function loadProfile() {
+      const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
+      if (profile.avatar) {
+        avatarImg.src = profile.avatar;
+        avatarImg.style.display = 'block';
+      }
+      const userEmail = user?.email || profile.email || 'user@example.com';
+      const nickname = profile.nickname || user?.name || 'User Name';
+      displayNickname.textContent = nickname;
+      profileName.textContent = nickname;
+      displayEmail.textContent = userEmail;
+      displayStatus.textContent = profile.status || 'Active';
+      displayFavorites.textContent = profile.favorites || '';
+      if (profile.joined) {
+        displayJoined.textContent = profile.joined;
+      } else {
+        const joinedNow = new Date().toLocaleString();
+        displayJoined.textContent = joinedNow;
+        profile.joined = joinedNow;
+        profile.email = userEmail;
+        profile.nickname = nickname;
+        profile.status = displayStatus.textContent;
+        profile.favorites = displayFavorites.textContent;
+        localStorage.setItem('userProfile', JSON.stringify(profile));
+      }
+      renderReadingHistory();
+    }
 
     editBtn.addEventListener('click', function() {
       profileSection.classList.add('edit-mode');
@@ -363,11 +465,6 @@
       loadProfile();
     });
 
-    logoutBtn.addEventListener('click', function() {
-      localStorage.removeItem('user');
-      window.location.href = 'auth.html';
-    });
-
     avatarUpload.addEventListener('change', function(event) {
       const file = event.target.files[0];
       if (file) {
@@ -381,89 +478,33 @@
       }
     });
 
-    function saveProfile() {
-      const profile = {
-        avatar: avatarImg.src,
-        nickname: displayNickname.textContent,
-        email: displayEmail.textContent,
-        status: displayStatus.textContent,
-        joined: displayJoined.textContent,
-        favorites: displayFavorites.textContent
-      };
-      localStorage.setItem('userProfile', JSON.stringify(profile));
-    }
-
-    function loadProfile() {
-      const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
-      if (profile.avatar) {
-        avatarImg.src = profile.avatar;
-        avatarImg.style.display = 'block';
-      }
-      const userEmail = user?.email || profile.email || 'user@example.com';
-      const nickname = profile.nickname || user?.name || 'User Name';
-      displayNickname.textContent = nickname;
-      profileName.textContent = nickname;
-      displayEmail.textContent = userEmail;
-      displayStatus.textContent = profile.status || 'Active';
-      displayFavorites.textContent = profile.favorites || '';
-      if (profile.joined) {
-        displayJoined.textContent = profile.joined;
-      } else {
-        const joinedNow = new Date().toLocaleString();
-        displayJoined.textContent = joinedNow;
-        profile.joined = joinedNow;
-        profile.email = userEmail;
-        profile.nickname = nickname;
-        profile.status = displayStatus.textContent;
-        profile.favorites = displayFavorites.textContent;
-        localStorage.setItem('userProfile', JSON.stringify(profile));
-      }
-      renderReadingHistory();
-    }
-
-    function renderReadingHistory() {
-      const history = JSON.parse(localStorage.getItem('readingHistory')) || [];
-      readingHistoryDiv.innerHTML = '';
-      
-      if (history.length === 0) {
-        readingHistoryDiv.innerHTML = '<p style="color: var(--muted);">No reading history yet. Start reading to build your history!</p>';
-        return;
-      }
-
-      history.forEach(item => {
-        const historyItem = document.createElement('div');
-        historyItem.style.cssText = 'padding: 12px; background: rgba(190, 160, 202, 0.1); border-radius: 8px; border-left: 3px solid #bea0ca;';
-        historyItem.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <strong style="color: var(--text);">${item.title}</strong>
-              <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 0.9rem;">${item.timestamp}</p>
-            </div>
-          </div>
-        `;
-        readingHistoryDiv.appendChild(historyItem);
-      });
-    }
+    loadProfile();
   });
 
-  // Hide Sign-In/Register button when logged in
-  const navSignup = document.querySelector('.nav-signup');
-  if (navSignup) navSignup.style.display = 'none';
-
-  // Global function to track reading
-  window.addToReadingHistory = function(mangaTitle) {
+  window.addToReadingHistory = function(title, mangaId, chapter, page) {
     const history = JSON.parse(localStorage.getItem('readingHistory')) || [];
-    const timestamp = new Date().toLocaleString();
-    history.unshift({ title: mangaTitle, timestamp: timestamp });
-    if (history.length > 20) history.pop();
+    const timestamp = new Date().toISOString();
+    const historyEntry = {
+      title: title || 'Untitled',
+      mangaId: mangaId || 'unknown',
+      chapter: chapter || 'N/A',
+      page: page || '1',
+      timestamp: timestamp
+    };
+
+    const existingIndex = history.findIndex(h => h.mangaId === mangaId);
+    if (existingIndex > -1) {
+      history.splice(existingIndex, 1);
+    }
+    history.unshift(historyEntry);
+    if (history.length > 50) history.pop();
     localStorage.setItem('readingHistory', JSON.stringify(history));
   };
-  // Sample data for testing (Remove this once your library page is linked!)
-if (!localStorage.getItem('readingHistory')) {
-    addToReadingHistory("Kamisama Kiss - Chapter 1");
-    addToReadingHistory("Soul Eater - Chapter 15");
-    renderReadingHistory(); // Refresh the display
-}
+
+  if (!localStorage.getItem('readingHistory')) {
+    addToReadingHistory('Kamisama Kiss', '001', 1, 15);
+    addToReadingHistory('Soul Eater', '002', 15, 30);
+  }
 </script>
 </body>
 </html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Guidelines - DOKUSHO-ZUKI</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b3d;
+      --muted: #575771;
+      --accent: #4a3f6e;
+      --cream1: #dcd0ff;
+      --cream2: #ccccff;
+      --cream3: #cec8ef;
+      --cream4: #e6e6fa;
+      --shadow: 0 28px 70px rgba(98, 74, 190, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-block;
+      position: relative;
+      font-size: 1.8rem;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+      color: #2b2b3d;
+      background: #bea0ca;
+      padding: 0.16em 0.28em;
+      border-radius: 0em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #bea0ca;
+      border-radius: 0.1em;
+      z-index: -1;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav a {
+      padding: 6px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: #d1bfd8
+    }
+
+    header .nav a.nav-signup {
+      background: #bea0ca !important; 
+      color: #2b2b3d !important;      
+      padding: 6px 15px !important;   
+      border-radius: 0px !important;  
+      font-weight: 700 !important;
+      display: inline-block !important;    
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 20px rgba(98, 74, 190, 0.1);
+    }
+
+    header .nav a.nav-signup:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+    }
+
+    .nav i {
+      margin-right: 6px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .guidelines-content {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(130, 102, 210, 0.12);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(98, 74, 190, 0.08);
+    }
+
+    .guideline-section {
+      margin-bottom: 36px;
+    }
+
+    .guideline-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .guideline-section h2 {
+      color: #bea0ca;
+      font-size: 1.5rem;
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .guideline-section h2 i {
+      font-size: 1.3rem;
+    }
+
+    .guideline-section p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 0 0 10px 0;
+    }
+
+    .guideline-section ul {
+      margin: 12px 0 0 0;
+      padding-left: 24px;
+    }
+
+    .guideline-section li {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .highlight-box {
+      background: #f0e6ff;
+      border-left: 4px solid #bea0ca;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .highlight-box p {
+      margin: 0;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .guidelines-content {
+        padding: 24px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a href="index.html" class="brand">DOKUSHO-ZUKI</a>
+      <nav class="nav">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="manga-library.html"><i class="fas fa-book"></i> Manga Library</a>
+        <a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="aboutus.html"><i class="fas fa-circle-info"></i> About Us</a>
+        <a href="community.html"><i class="fas fa-comments"></i> Community</a>
+        <a href="guideline.html"><i class="fas fa-book-open"></i> Guidelines</a>
+        <a href="history.html"><i class="fas fa-history"></i> History</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="auth.html" class="nav-signup"><i class="fas fa-sign-in-alt"></i> Sign In / Register</a>
+      </nav>
+    </header>
+
+    <section class="page-header">
+      <h1>User Guidelines</h1>
+      <p>Learn how to use DOKUSHO-ZUKI responsibly and get the most out of your experience.</p>
+    </section>
+
+    <section class="guidelines-content">
+      <div class="guideline-section">
+        <h2><i class="fas fa-book"></i> About DOKUSHO-ZUKI</h2>
+        <p>DOKUSHO-ZUKI is a community-driven manga library and reading platform. Our mission is to provide manga enthusiasts with a space to discover, read, and discuss their favorite titles while respecting copyright and community standards.</p>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-heart"></i> Community Conduct</h2>
+        <p>We maintain a welcoming and respectful environment for all users. Please adhere to these guidelines:</p>
+        <ul>
+          <li>Be respectful and courteous to other users and their opinions</li>
+          <li>Avoid harassment, discrimination, or hate speech of any kind</li>
+          <li>Do not spam or flood the community with repetitive content</li>
+          <li>Respect the intellectual property rights of manga creators and publishers</li>
+          <li>Keep discussions relevant to manga, anime, and related topics</li>
+          <li>Report any inappropriate content or behavior to our moderation team</li>
+        </ul>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-lock"></i> Content Policy</h2>
+        <p>To maintain a safe and appropriate community, the following content is strictly prohibited:</p>
+        <ul>
+          <li>Explicit adult content or pornography</li>
+          <li>Pirated or illegally distributed manga</li>
+          <li>Copyright infringing material without proper licensing</li>
+          <li>Violent, graphic, or disturbing content (unless within context of manga reviews)</li>
+          <li>Personal information disclosure of other users</li>
+          <li>Malicious links or phishing attempts</li>
+        </ul>
+        <div class="highlight-box">
+          <p>⚠️ Violations of these policies may result in warnings, temporary suspension, or permanent removal from the platform.</p>
+        </div>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-comments"></i> Forum Etiquette</h2>
+        <p>When posting in our community forums, please:</p>
+        <ul>
+          <li>Use clear, descriptive titles for your posts</li>
+          <li>Search existing discussions before posting duplicate topics</li>
+          <li>Use appropriate category tags (Shōnen, Shōjo, Seinen, Josei, etc.)</li>
+          <li>Provide context and examples when asking for recommendations</li>
+          <li>Mark spoilers with warning labels before revealing plot details</li>
+          <li>Give constructive criticism and praise creators' hard work</li>
+        </ul>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-bookmark"></i> Reading History & Favorites</h2>
+        <p>Our platform tracks your reading progress to enhance your experience:</p>
+        <ul>
+          <li>Your reading history is stored locally on your device by default</li>
+          <li>You can view your reading history in your Profile section</li>
+          <li>Clear your history at any time from your account settings</li>
+          <li>Use the "Continue Reading" feature to resume from where you left off</li>
+          <li>Add manga to your Favorites to quickly access your preferred titles</li>
+        </ul>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-shield"></i> Privacy & Account Security</h2>
+        <p>Your privacy is important to us. Please:</p>
+        <ul>
+          <li>Never share your password with anyone, including staff members</li>
+          <li>Use a unique password for your DOKUSHO-ZUKI account</li>
+          <li>Log out when using shared devices</li>
+          <li>Keep your email address up to date</li>
+          <li>Report suspicious account activity immediately</li>
+          <li>Review our Privacy Policy for detailed information on data handling</li>
+        </ul>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-lightbulb"></i> Best Practices</h2>
+        <p>To get the best experience from DOKUSHO-ZUKI:</p>
+        <ul>
+          <li>Complete your profile with accurate information</li>
+          <li>Explore different genres and discover new manga</li>
+          <li>Engage with the community through discussions and recommendations</li>
+          <li>Leave reviews and ratings to help other readers</li>
+          <li>Follow favorite authors and series to stay updated</li>
+          <li>Report content that needs licensing review to our team</li>
+        </ul>
+      </div>
+
+      <div class="guideline-section">
+        <h2><i class="fas fa-question-circle"></i> Support & Questions</h2>
+        <p>If you have questions about these guidelines or need assistance, please:</p>
+        <ul>
+          <li>Visit the <a href="contact.html" style="color: #bea0ca; text-decoration: underline;">Contact Us</a> page</li>
+          <li>Check the <a href="aboutus.html" style="color: #bea0ca; text-decoration: underline;">About Us</a> section for more information</li>
+          <li>Reach out to our community moderators in the forums</li>
+          <li>Review our <a href="index.html" style="color: #bea0ca; text-decoration: underline;">homepage</a> for additional resources</li>
+        </ul>
+        <div class="highlight-box">
+          <p>ℹ️ These guidelines are subject to change. Please review them periodically for updates.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Check login
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Hide Sign-In/Register button when logged in
+    const navSignup = document.querySelector('.nav-signup');
+    if (user && user.type === 'user') {
+      navSignup.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
